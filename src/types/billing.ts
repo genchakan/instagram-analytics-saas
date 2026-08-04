@@ -1,4 +1,4 @@
-export type PlanId = "starter" | "pro" | "unlimited";
+export type PlanId = "free" | "pro" | "unlimited";
 
 export type BillingPeriod = "monthly" | "yearly";
 

@@ -1,8 +1,14 @@
 "use client";
 
-import { CheckCircle2, Circle, Eye, Lock } from "lucide-react";
+import { CheckCircle2, Circle, Eye, Lock, ShieldCheck, KeyRound, Unplug } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppState } from "@/lib/app-state";
+
+const TRUST_POINTS = [
+  { icon: ShieldCheck, label: "Encrypted connection" },
+  { icon: KeyRound, label: "Password never stored" },
+  { icon: Unplug, label: "No direct access to Meta's login systems" },
+];
 
 export function SetupChecklist() {
   const { account, setConnectModalOpen } = useAppState();
@@ -41,6 +47,15 @@ export function SetupChecklist() {
             <Lock className="h-4 w-4" aria-hidden="true" />
             Connect Instagram
           </button>
+
+          <ul className="mx-auto mt-5 flex max-w-sm flex-col items-start gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-5 sm:gap-y-2">
+            {TRUST_POINTS.map((point) => (
+              <li key={point.label} className="flex items-center gap-1.5 text-xs text-text-secondary">
+                <point.icon className="h-3.5 w-3.5 shrink-0 text-success" aria-hidden="true" />
+                {point.label}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 

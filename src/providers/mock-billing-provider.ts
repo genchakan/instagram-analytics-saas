@@ -29,7 +29,7 @@ export class MockBillingProvider implements BillingProvider {
     return {
       id: `sub_mock_${userId}`,
       userId,
-      plan: "starter",
+      plan: "free",
       status: "canceled",
       billingPeriod: "monthly",
       renewalDate: null,

@@ -47,7 +47,7 @@ export function PricingCards({
                 <span className="text-3xl font-semibold text-text-primary">€{price.toFixed(2)}</span>
                 <span className="text-sm text-text-secondary">/mo</span>
               </p>
-              {period === "yearly" && (
+              {period === "yearly" && plan.priceYearly > 0 && (
                 <p className="text-xs text-text-secondary">billed €{plan.priceYearly.toFixed(2)}/year</p>
               )}
 
@@ -76,7 +76,7 @@ export function PricingCards({
                   variant={plan.emphasized ? "primary" : "secondary"}
                   className="mt-6 w-full"
                 >
-                  <Link href="/dashboard">Start free trial</Link>
+                  <Link href="/dashboard">{plan.priceMonthly === 0 ? "Get started free" : "Start free trial"}</Link>
                 </Button>
               )}
             </div>
