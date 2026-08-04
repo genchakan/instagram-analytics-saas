@@ -3,12 +3,11 @@
 import { useState } from "react";
 import { DesktopSidebar, MobileSidebarDrawer } from "@/components/dashboard/sidebar";
 import { Topbar } from "@/components/dashboard/topbar";
-import { OnboardingModal } from "@/components/onboarding/onboarding-modal";
 import { ConnectionModal } from "@/components/connection/connection-modal";
 import { useAppState } from "@/lib/app-state";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { hydrated, onboardingOpen, setOnboardingOpen } = useAppState();
+  const { hydrated } = useAppState();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   if (!hydrated) {
@@ -31,7 +30,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
       </div>
 
-      <OnboardingModal open={onboardingOpen} onOpenChange={setOnboardingOpen} />
       <ConnectionModal />
     </div>
   );

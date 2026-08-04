@@ -4,7 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 import type { User } from "@/types/user";
 import type { ConnectedAccount } from "@/types/account";
 import type { Subscription } from "@/types/billing";
-import { ensureGuestSession, updateSession, signOut as authSignOut } from "@/services/auth";
+import { ensureGuestSession, signOut as authSignOut } from "@/services/auth";
 import { getStoredAccount } from "@/services/instagram-connection";
 import { getStoredSubscription } from "@/services/billing";
 
@@ -16,10 +16,7 @@ interface AppStateValue {
   setUser: (user: User | null) => void;
   setAccount: (account: ConnectedAccount | null) => void;
   setSubscription: (subscription: Subscription | null) => void;
-  completeOnboarding: () => void;
   signOut: () => void;
-  onboardingOpen: boolean;
-  setOnboardingOpen: (open: boolean) => void;
   connectModalOpen: boolean;
   setConnectModalOpen: (open: boolean) => void;
 }
@@ -31,7 +28,6 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = useState<ConnectedAccount | null>(null);
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [hydrated, setHydrated] = useState(false);
-  const [onboardingOpen, setOnboardingOpen] = useState(false);
   const [connectModalOpen, setConnectModalOpen] = useState(false);
 
   useEffect(() => {
@@ -42,11 +38,6 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     setAccount(getStoredAccount());
     setSubscription(getStoredSubscription());
     setHydrated(true);
-  }, []);
-
-  const completeOnboarding = useCallback(() => {
-    const updated = updateSession({ onboardingCompleted: true });
-    if (updated) setUser(updated);
   }, []);
 
   const signOut = useCallback(() => {
@@ -66,10 +57,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         setUser,
         setAccount,
         setSubscription,
-        completeOnboarding,
         signOut,
-        onboardingOpen,
-        setOnboardingOpen,
         connectModalOpen,
         setConnectModalOpen,
       }}

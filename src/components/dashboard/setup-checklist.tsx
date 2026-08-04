@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useAppState } from "@/lib/app-state";
 
 export function SetupChecklist() {
-  const { account, setConnectModalOpen, setOnboardingOpen } = useAppState();
+  const { account, setConnectModalOpen } = useAppState();
 
   const steps = [
     { id: "connect", label: "Connect Instagram", complete: !!account },
@@ -40,13 +40,6 @@ export function SetupChecklist() {
           >
             <Lock className="h-4 w-4" aria-hidden="true" />
             Connect Instagram
-          </button>
-          <button
-            type="button"
-            onClick={() => setOnboardingOpen(true)}
-            className="mx-auto mt-3 block text-xs font-medium text-text-secondary underline-offset-2 hover:text-text-primary hover:underline"
-          >
-            See a demo dashboard first
           </button>
         </div>
       )}
