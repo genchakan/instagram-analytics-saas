@@ -10,20 +10,27 @@ import { ActivityTimeline } from "@/components/dashboard/activity-timeline";
 import { InterestBreakdownCard } from "@/components/dashboard/interest-breakdown-card";
 import { ConnectedAccountCard } from "@/components/dashboard/connected-account-card";
 import { DemoBadge } from "@/components/dashboard/demo-badge";
-import { DEMO_METRICS, DEMO_ACTIVITY_EVENTS } from "@/data/demo-dashboard";
+import { DEMO_METRICS, DEMO_ACTIVITY_EVENTS, DEMO_VISITORS } from "@/data/demo-dashboard";
 
 export default function DashboardOverviewPage() {
-  const { user, account } = useAppState();
-  const firstName = user?.fullName.split(" ")[0] ?? "there";
+  const { account } = useAppState();
+  const topVisitor = DEMO_VISITORS[0];
+  const otherVisitorCount = DEMO_VISITORS.length - 1;
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-6">
       <div>
-        <h1 className="text-xl font-semibold text-text-primary sm:text-2xl">Welcome, {firstName}.</h1>
+        <h1 className="text-xl font-semibold text-text-primary sm:text-2xl">Dashboard</h1>
         <p className="mt-1 text-sm text-text-secondary">
-          {account
-            ? "Here's what's happening around your profile."
-            : "Connect your Instagram profile to begin building your activity dashboard."}
+          {account ? (
+            <>
+              <span className="font-medium text-text-primary">@{topVisitor.username}</span> and{" "}
+              <span className="font-medium text-text-primary">{otherVisitorCount} others</span> viewed
+              your profile recently — here&apos;s who&apos;s paying attention.
+            </>
+          ) : (
+            "Connect your Instagram profile to see who's viewing and revisiting your profile."
+          )}
         </p>
       </div>
 
@@ -38,7 +45,7 @@ export default function DashboardOverviewPage() {
             <DemoBadge />
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="grid grid-cols-3 gap-2.5 sm:gap-4">
             {DEMO_METRICS.map((metric) => (
               <MetricCard key={metric.id} metric={metric} />
             ))}
@@ -46,8 +53,8 @@ export default function DashboardOverviewPage() {
 
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="flex min-w-0 flex-col gap-6 lg:col-span-2">
-              <ActivityChartCard />
               <VisitorsPreviewCard />
+              <ActivityChartCard />
             </div>
             <div className="flex min-w-0 flex-col gap-6">
               <ConnectedAccountCard />

@@ -34,11 +34,9 @@ export const DEMO_ACCOUNT: ConnectedAccount = {
 };
 
 export const DEMO_METRICS: MetricSummary[] = [
-  { id: "profile-views", label: "Profile Views", value: "2,840", change: 18.2, changeLabel: "vs last week", trend: "up" },
-  { id: "recent-visitors", label: "Recent Visitors", value: "342", change: 6.4, changeLabel: "vs last week", trend: "up" },
-  { id: "new-activity", label: "New Activity", value: "58", change: -3.1, changeLabel: "vs last week", trend: "down" },
-  { id: "engagement-change", label: "Engagement Change", value: "+9.7%", change: 9.7, changeLabel: "vs last week", trend: "up" },
-  { id: "interest-score", label: "Interest Score", value: "76 / 100", change: 4.0, changeLabel: "vs last week", trend: "up" },
+  { id: "recent-visitors", label: "People Who Viewed You", value: "342", change: 6.4, changeLabel: "vs last week", trend: "up" },
+  { id: "profile-views", label: "Total Times Viewed", value: "2,840", change: 18.2, changeLabel: "vs last week", trend: "up" },
+  { id: "peak-hour", label: "Peak Viewing Hours", value: "9–11 PM", changeLabel: "Most visits happen at night" },
 ];
 
 function buildActivitySeries(days: number): DailyActivityPoint[] {

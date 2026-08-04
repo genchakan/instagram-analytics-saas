@@ -7,23 +7,24 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const STEPS = [
-  "Checking profile information",
-  "Preparing analytics",
-  "Syncing profile activity",
-  "Building dashboard",
-  "Completing setup",
+  { label: "Verifying account details", durationMs: 1500 },
+  { label: "Establishing secure connection", durationMs: 1900 },
+  { label: "Accessing basic profile data", durationMs: 1700 },
+  { label: "Syncing recent visitor activity", durationMs: 2200 },
+  { label: "Preparing analytics", durationMs: 1600 },
+  { label: "Building your dashboard", durationMs: 1400 },
+  { label: "Completing setup", durationMs: 900 },
 ];
-
-const STEP_DURATION_MS = 900;
 
 export function ConnectionProgress() {
   const router = useRouter();
   const [activeStep, setActiveStep] = useState(0);
   const done = activeStep >= STEPS.length;
+  const percent = Math.round((activeStep / STEPS.length) * 100);
 
   useEffect(() => {
     if (done) return;
-    const timer = setTimeout(() => setActiveStep((s) => s + 1), STEP_DURATION_MS);
+    const timer = setTimeout(() => setActiveStep((s) => s + 1), STEPS[activeStep]!.durationMs);
     return () => clearTimeout(timer);
   }, [activeStep, done]);
 
@@ -38,25 +39,35 @@ export function ConnectionProgress() {
       <div className="w-full rounded-[var(--radius-lg)] border border-border bg-surface-1 p-6 sm:p-8">
         {!done ? (
           <>
+            <div className="mb-5 flex items-center justify-between">
+              <span className="text-xs font-medium text-text-secondary">Connecting…</span>
+              <span className="text-xs font-semibold text-text-primary" aria-live="polite">
+                {percent}%
+              </span>
+            </div>
+            <div className="mb-6 h-1.5 w-full overflow-hidden rounded-full bg-surface-2">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-accent-primary-muted to-accent-secondary transition-all duration-500"
+                style={{ width: `${percent}%` }}
+              />
+            </div>
+
             <Loader2 className="mx-auto mb-5 h-8 w-8 animate-spin text-accent-secondary" aria-hidden="true" />
             <h1 className="text-lg font-semibold text-text-primary">Setting up your dashboard</h1>
-            <p className="mt-1 text-sm text-text-secondary">This will only take a moment.</p>
+            <p className="mt-1 text-sm text-text-secondary">This may take a moment — don&apos;t close this window.</p>
 
             <ul className="mt-6 flex flex-col gap-3 text-left" aria-live="polite">
-              {STEPS.map((label, index) => {
+              {STEPS.map((step, index) => {
                 const complete = index < activeStep;
                 const active = index === activeStep;
                 return (
-                  <li key={label} className="flex items-center gap-3">
+                  <li key={step.label} className="flex items-center gap-3">
                     {complete ? (
                       <CheckCircle2 className="h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+                    ) : active ? (
+                      <Loader2 className="h-4 w-4 shrink-0 animate-spin text-accent-secondary" aria-hidden="true" />
                     ) : (
-                      <span
-                        className={cn(
-                          "h-4 w-4 shrink-0 rounded-full border-2",
-                          active ? "border-accent-secondary" : "border-border",
-                        )}
-                      />
+                      <span className="h-4 w-4 shrink-0 rounded-full border-2 border-border" />
                     )}
                     <span
                       className={cn(
@@ -64,7 +75,7 @@ export function ConnectionProgress() {
                         complete || active ? "text-text-primary" : "text-text-secondary",
                       )}
                     >
-                      {label}
+                      {step.label}
                     </span>
                   </li>
                 );

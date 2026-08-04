@@ -33,7 +33,7 @@ export interface MetricSummary {
   id: string;
   label: string;
   value: string;
-  change: number;
   changeLabel: string;
-  trend: "up" | "down" | "flat";
+  change?: number;
+  trend?: "up" | "down" | "flat";
 }

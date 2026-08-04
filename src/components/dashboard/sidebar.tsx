@@ -1,12 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { HelpCircle, LogOut, Sparkles, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { HelpCircle, Sparkles, X } from "lucide-react";
 import { DASHBOARD_NAV } from "@/data/navigation";
 import { cn } from "@/lib/utils";
-import { Avatar } from "@/components/ui/avatar";
-import { useAppState } from "@/lib/app-state";
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
@@ -38,14 +36,6 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 function SidebarBottom() {
-  const { user, signOut } = useAppState();
-  const router = useRouter();
-
-  function handleSignOut() {
-    signOut();
-    router.push("/");
-  }
-
   return (
     <div className="flex flex-col gap-1 border-t border-border pt-3">
       <Link
@@ -55,21 +45,6 @@ function SidebarBottom() {
         <HelpCircle className="h-4 w-4" aria-hidden="true" />
         Help
       </Link>
-      <div className="flex items-center gap-3 rounded-[var(--radius-md)] px-3 py-2">
-        <Avatar name={user?.fullName ?? "You"} size="sm" />
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium text-text-primary">{user?.fullName ?? "Member"}</p>
-          <p className="truncate text-xs text-text-secondary">{user?.email ?? ""}</p>
-        </div>
-        <button
-          type="button"
-          onClick={handleSignOut}
-          aria-label="Sign out"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-md)] text-text-secondary hover:bg-surface-2 hover:text-text-primary"
-        >
-          <LogOut className="h-4 w-4" aria-hidden="true" />
-        </button>
-      </div>
     </div>
   );
 }

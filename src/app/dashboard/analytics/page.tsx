@@ -15,7 +15,7 @@ export default function AnalyticsPage() {
         <DemoBadge />
       </div>
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="grid grid-cols-3 gap-2.5 sm:gap-4">
         {DEMO_METRICS.map((metric) => (
           <MetricCard key={metric.id} metric={metric} />
         ))}

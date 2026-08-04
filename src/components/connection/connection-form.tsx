@@ -71,15 +71,15 @@ export function ConnectionForm({
           <AtSign className="h-5 w-5 text-white" aria-hidden="true" />
         </span>
         <div>
-          <p className="text-sm font-semibold text-text-primary">Connect Instagram</p>
+          <p className="text-sm font-semibold text-text-primary">Continue manually</p>
           <Badge variant="warning" className="mt-1">Development Mode</Badge>
         </div>
       </div>
 
       <div className="flex items-start gap-2 rounded-[var(--radius-md)] border border-border bg-surface-2 p-3 text-xs text-text-secondary">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent-secondary" aria-hidden="true" />
-        This prototype simulates account connection. Credentials are not stored or sent to
-        Instagram.
+        Automatic sign-in wasn&apos;t available in this environment. This prototype simulates
+        account connection below — credentials are not stored or sent to Instagram.
       </div>
 
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>

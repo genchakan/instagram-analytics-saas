@@ -13,8 +13,8 @@ export const PRICING_PLANS: PricingPlan[] = [
     id: "starter",
     name: "Starter",
     tagline: "For getting a first read on your profile",
-    priceMonthly: 9,
-    priceYearly: 90,
+    priceMonthly: 2.99,
+    priceYearly: 29.9,
     emphasized: false,
     features: [
       "1 connected profile",
@@ -28,8 +28,8 @@ export const PRICING_PLANS: PricingPlan[] = [
     id: "pro",
     name: "Pro",
     tagline: "For creators who track activity every week",
-    priceMonthly: 24,
-    priceYearly: 240,
+    priceMonthly: 7.99,
+    priceYearly: 79.9,
     emphasized: true,
     features: [
       "Full visitor list",
@@ -44,8 +44,8 @@ export const PRICING_PLANS: PricingPlan[] = [
     id: "unlimited",
     name: "Unlimited",
     tagline: "For teams managing multiple profiles",
-    priceMonthly: 59,
-    priceYearly: 590,
+    priceMonthly: 19.99,
+    priceYearly: 199.9,
     emphasized: false,
     features: [
       "Everything in Pro",

@@ -12,10 +12,10 @@ export function FinalCta() {
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_60%_at_50%_0%,rgba(217,70,239,0.15),transparent)]"
         />
         <h2 className="mx-auto max-w-2xl text-2xl font-semibold tracking-tight text-text-primary sm:text-3xl">
-          Start building your Instagram activity dashboard today
+          Stop wondering who&apos;s watching. Start seeing.
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-sm text-text-secondary sm:text-base">
-          Get Started Free and see your first insights in minutes.
+          Connect your profile and see your first visitor insights in minutes.
         </p>
         <div className="mt-8 flex flex-col items-center gap-4">
           <Button size="lg" asChild className="w-full sm:w-auto">

@@ -25,7 +25,7 @@ export function PricingCards({
 
       <div className="grid w-full gap-5 sm:grid-cols-3">
         {PRICING_PLANS.map((plan) => {
-          const price = period === "monthly" ? plan.priceMonthly : Math.round(plan.priceYearly / 12);
+          const price = period === "monthly" ? plan.priceMonthly : plan.priceYearly / 12;
           return (
             <div
               key={plan.id}
@@ -44,11 +44,11 @@ export function PricingCards({
               <h3 className="text-lg font-semibold text-text-primary">{plan.name}</h3>
               <p className="mt-1 text-sm text-text-secondary">{plan.tagline}</p>
               <p className="mt-4 flex items-baseline gap-1">
-                <span className="text-3xl font-semibold text-text-primary">${price}</span>
+                <span className="text-3xl font-semibold text-text-primary">€{price.toFixed(2)}</span>
                 <span className="text-sm text-text-secondary">/mo</span>
               </p>
               {period === "yearly" && (
-                <p className="text-xs text-text-secondary">billed ${plan.priceYearly}/year</p>
+                <p className="text-xs text-text-secondary">billed €{plan.priceYearly.toFixed(2)}/year</p>
               )}
 
               {!compact && (

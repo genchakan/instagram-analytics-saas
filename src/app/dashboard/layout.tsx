@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
 import { DesktopSidebar, MobileSidebarDrawer } from "@/components/dashboard/sidebar";
 import { Topbar } from "@/components/dashboard/topbar";
@@ -10,15 +9,8 @@ import { ConnectionModal } from "@/components/connection/connection-modal";
 import { useAppState } from "@/lib/app-state";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
   const { user, hydrated, onboardingOpen, setOnboardingOpen } = useAppState();
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => {
-    if (hydrated && !user) {
-      router.replace("/login");
-    }
-  }, [hydrated, user, router]);
 
   useEffect(() => {
     if (hydrated && user && !user.onboardingCompleted) {
@@ -26,7 +18,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
   }, [hydrated, user, setOnboardingOpen]);
 
-  if (!hydrated || !user) {
+  if (!hydrated) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-bg">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-accent-primary" />
@@ -43,7 +35,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="flex min-h-screen flex-1 flex-col">
         <Topbar onOpenMenu={() => setMobileOpen(true)} />
 
-        {!user.emailVerified && (
+        {user && !user.emailVerified && (
           <div className="flex items-center gap-2 border-b border-warning/20 bg-warning/10 px-4 py-2.5 text-xs text-warning sm:px-6">
             <AlertCircle className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
             Verify your email to secure your account.

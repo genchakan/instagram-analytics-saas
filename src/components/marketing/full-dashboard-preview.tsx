@@ -21,19 +21,10 @@ export function FullDashboardPreview() {
         <DemoBadge />
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
+      <div className="grid grid-cols-3 gap-2.5 sm:gap-4">
         {DEMO_METRICS.map((metric) => (
           <MetricCard key={metric.id} metric={metric} />
         ))}
-      </div>
-
-      <div className="mt-4 grid gap-4 lg:grid-cols-3">
-        <div className="min-w-0 lg:col-span-2">
-          <ActivityChartCard />
-        </div>
-        <div className="min-w-0">
-          <InterestBreakdownCard />
-        </div>
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-3">
@@ -42,6 +33,15 @@ export function FullDashboardPreview() {
         </div>
         <div className="min-w-0">
           <StaticConnectedAccount />
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-3">
+        <div className="min-w-0 lg:col-span-2">
+          <ActivityChartCard />
+        </div>
+        <div className="min-w-0">
+          <InterestBreakdownCard />
         </div>
       </div>
     </div>

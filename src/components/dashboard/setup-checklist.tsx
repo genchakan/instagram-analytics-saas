@@ -1,7 +1,6 @@
 "use client";
 
-import { CheckCircle2, Circle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CheckCircle2, Circle, Eye, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppState } from "@/lib/app-state";
 
@@ -9,7 +8,6 @@ export function SetupChecklist() {
   const { user, account, setConnectModalOpen, setOnboardingOpen } = useAppState();
 
   const steps = [
-    { id: "account", label: "Create your account", complete: true },
     { id: "learn", label: "Learn how the dashboard works", complete: !!user?.onboardingCompleted },
     { id: "connect", label: "Connect Instagram", complete: !!account },
     { id: "report", label: "View your first report", complete: !!account },
@@ -19,46 +17,71 @@ export function SetupChecklist() {
   const percent = Math.round((completeCount / steps.length) * 100);
 
   return (
-    <div className="rounded-[var(--radius-lg)] border border-border bg-surface-1 p-5 sm:p-6">
-      <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm font-semibold text-text-primary">Setup {percent}% complete</p>
-        <span className="text-xs text-text-secondary">
-          {completeCount}/{steps.length}
-        </span>
-      </div>
-
-      <div className="mb-5 h-1.5 w-full overflow-hidden rounded-full bg-surface-2">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-accent-primary-muted to-accent-secondary transition-all"
-          style={{ width: `${percent}%` }}
-        />
-      </div>
-
-      <ul className="flex flex-col gap-3">
-        {steps.map((step) => (
-          <li key={step.id} className="flex items-center gap-2.5">
-            {step.complete ? (
-              <CheckCircle2 className="h-4 w-4 shrink-0 text-success" aria-hidden="true" />
-            ) : (
-              <Circle className="h-4 w-4 shrink-0 text-text-secondary" aria-hidden="true" />
-            )}
-            <span className={cn("text-sm", step.complete ? "text-text-secondary line-through" : "text-text-primary")}>
-              {step.label}
-            </span>
-          </li>
-        ))}
-      </ul>
-
+    <div className="overflow-hidden rounded-[var(--radius-lg)] border border-accent-primary/30 bg-surface-1">
       {!account && (
-        <div className="mt-5 flex flex-col gap-2 sm:flex-row">
-          <Button onClick={() => setConnectModalOpen(true)} className="w-full sm:w-auto">
+        <div className="relative overflow-hidden border-b border-border bg-gradient-to-br from-surface-2 via-surface-1 to-surface-2 p-5 text-center sm:p-8">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_60%_at_50%_0%,rgba(139,92,246,0.18),transparent)]"
+          />
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-accent-primary/30 bg-accent-primary/10 px-3 py-1 text-xs font-medium text-violet-300">
+            <Eye className="h-3.5 w-3.5" aria-hidden="true" />
+            One step left
+          </span>
+          <h2 className="mx-auto mt-4 max-w-sm text-lg font-semibold tracking-tight text-text-primary sm:text-xl">
+            Connect Instagram to see who&apos;s watching you
+          </h2>
+          <p className="mx-auto mt-2 max-w-sm text-sm text-text-secondary">
+            Takes less than a minute. Your password is never stored, and you can disconnect anytime.
+          </p>
+          <button
+            type="button"
+            onClick={() => setConnectModalOpen(true)}
+            className="gradient-cta mx-auto mt-5 flex min-h-11 w-full max-w-xs items-center justify-center gap-2 rounded-[var(--radius-md)] px-5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            <Lock className="h-4 w-4" aria-hidden="true" />
             Connect Instagram
-          </Button>
-          <Button variant="secondary" onClick={() => setOnboardingOpen(true)} className="w-full sm:w-auto">
-            View Demo Dashboard
-          </Button>
+          </button>
+          <button
+            type="button"
+            onClick={() => setOnboardingOpen(true)}
+            className="mx-auto mt-3 block text-xs font-medium text-text-secondary underline-offset-2 hover:text-text-primary hover:underline"
+          >
+            See a demo dashboard first
+          </button>
         </div>
       )}
+
+      <div className="p-5 sm:p-6">
+        <div className="mb-4 flex items-center justify-between">
+          <p className="text-sm font-semibold text-text-primary">Setup {percent}% complete</p>
+          <span className="text-xs text-text-secondary">
+            {completeCount}/{steps.length}
+          </span>
+        </div>
+
+        <div className="mb-5 h-1.5 w-full overflow-hidden rounded-full bg-surface-2">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-accent-primary-muted to-accent-secondary transition-all"
+            style={{ width: `${percent}%` }}
+          />
+        </div>
+
+        <ul className="flex flex-col gap-3">
+          {steps.map((step) => (
+            <li key={step.id} className="flex items-center gap-2.5">
+              {step.complete ? (
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+              ) : (
+                <Circle className="h-4 w-4 shrink-0 text-text-secondary" aria-hidden="true" />
+              )}
+              <span className={cn("text-sm", step.complete ? "text-text-secondary line-through" : "text-text-primary")}>
+                {step.label}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

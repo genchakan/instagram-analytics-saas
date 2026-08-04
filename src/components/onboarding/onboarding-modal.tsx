@@ -133,8 +133,8 @@ export function OnboardingModal({
               <div className="mb-3 flex justify-end">
                 <Badge variant="demo">Example dashboard preview</Badge>
               </div>
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                {DEMO_METRICS.slice(0, 4).map((metric) => (
+              <div className="grid grid-cols-3 gap-2">
+                {DEMO_METRICS.map((metric) => (
                   <div key={metric.id} className="rounded-[var(--radius-md)] border border-border bg-surface-1 p-2.5">
                     <p className="text-[10px] text-text-secondary">{metric.label}</p>
                     <p className="mt-0.5 text-sm font-semibold text-text-primary">{metric.value}</p>

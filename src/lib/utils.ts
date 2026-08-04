@@ -42,3 +42,18 @@ export function avatarGradient(seed: string): string {
   }
   return AVATAR_GRADIENTS[hash % AVATAR_GRADIENTS.length]!;
 }
+
+/**
+ * Masks a locked visitor's username for display, e.g. "markomixer" -> "ma*****er".
+ * Keeps the first/last two characters so the row still reads as a real
+ * handle, without ever revealing enough to identify or search for it.
+ */
+export function maskUsername(username: string): string {
+  if (username.length <= 4) {
+    return `${username.slice(0, 1)}${"*".repeat(Math.max(username.length - 1, 1))}`;
+  }
+  const start = username.slice(0, 2);
+  const end = username.slice(-2);
+  const maskLength = Math.min(username.length - 4, 5);
+  return `${start}${"*".repeat(maskLength)}${end}`;
+}

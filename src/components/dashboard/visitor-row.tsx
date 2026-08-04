@@ -1,9 +1,9 @@
 "use client";
 
-import { Lock, Eye } from "lucide-react";
+import { Lock, Eye, Flame } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { StatusBadge } from "./status-badge";
-import { formatRelativeTime, cn } from "@/lib/utils";
+import { formatRelativeTime, maskUsername, cn } from "@/lib/utils";
 import type { VisitorInsight } from "@/types/visitor";
 
 const FREQUENCY_LABEL: Record<VisitorInsight["visitFrequency"], string> = {
@@ -12,6 +12,13 @@ const FREQUENCY_LABEL: Record<VisitorInsight["visitFrequency"], string> = {
   occasional: "Occasional",
   "one-time": "One-time",
 };
+
+function scoreTier(score: number) {
+  if (score >= 85) return { label: "Very high", ring: "ring-accent-highlight/50", text: "text-fuchsia-300", glow: "shadow-[0_0_0_4px_rgba(217,70,239,0.15)]" };
+  if (score >= 70) return { label: "High", ring: "ring-accent-primary/50", text: "text-violet-300", glow: "shadow-[0_0_0_4px_rgba(139,92,246,0.15)]" };
+  if (score >= 50) return { label: "Medium", ring: "ring-border", text: "text-text-primary", glow: "" };
+  return { label: "Low data", ring: "ring-border", text: "text-text-secondary", glow: "" };
+}
 
 export function VisitorRow({
   visitor,
@@ -23,12 +30,14 @@ export function VisitorRow({
   onUnlockClick?: () => void;
 }) {
   const locked = visitor.isLocked;
+  const tier = scoreTier(visitor.interestScore);
 
   return (
     <div
       className={cn(
-        "flex flex-col gap-3 rounded-[var(--radius-md)] border border-border bg-surface-1 p-4 transition-colors sm:flex-row sm:items-center sm:gap-4",
+        "flex flex-col gap-3 rounded-[var(--radius-md)] border border-border bg-surface-1 p-3.5 transition-colors sm:p-4",
         !locked && "hover:border-accent-primary/40 cursor-pointer",
+        locked && visitor.interestScore >= 85 && "border-accent-highlight/25",
       )}
       onClick={!locked ? onClick : undefined}
       role={!locked ? "button" : undefined}
@@ -41,49 +50,50 @@ export function VisitorRow({
           : undefined
       }
     >
-      <div className="flex min-w-0 flex-1 items-center gap-3">
-        <Avatar name={visitor.displayName} src={visitor.avatarUrl} size="md" />
+      <div className="flex items-start gap-3">
+        <div className={cn("relative shrink-0 rounded-full ring-2", tier.ring, tier.glow)}>
+          <Avatar
+            name={visitor.displayName}
+            src={visitor.avatarUrl}
+            size="md"
+            className={locked ? "blur-[1px] grayscale-[0.3] select-none" : undefined}
+          />
+        </div>
+
         <div className="min-w-0 flex-1">
-          <p className={cn("truncate text-sm font-medium text-text-primary", locked && "blur-[4px] select-none")}>
-            @{visitor.username}
-          </p>
-          <div className="mt-1">
+          <div className="flex items-start justify-between gap-2">
+            <p className="min-w-0 flex-1 truncate text-sm font-medium text-text-primary">
+              @{locked ? maskUsername(visitor.username) : visitor.username}
+            </p>
+            <span className={cn("flex shrink-0 items-center gap-1 text-base font-bold", tier.text)}>
+              {visitor.interestScore >= 85 && <Flame className="h-3.5 w-3.5" aria-hidden="true" />}
+              {visitor.interestScore}
+            </span>
+          </div>
+          <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
             <StatusBadge status={visitor.status} />
+            <span className="text-xs text-text-secondary">
+              {formatRelativeTime(visitor.lastActivityAt)} · {FREQUENCY_LABEL[visitor.visitFrequency]}
+            </span>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs sm:flex sm:items-center sm:gap-6 sm:text-sm">
-        <div>
-          <p className="text-text-secondary sm:hidden">Interest score</p>
-          <p className="font-semibold text-text-primary sm:w-12">{visitor.interestScore}</p>
-        </div>
-        <div>
-          <p className="text-text-secondary sm:hidden">Last activity</p>
-          <p className="text-text-secondary sm:w-24">{formatRelativeTime(visitor.lastActivityAt)}</p>
-        </div>
-        <div>
-          <p className="text-text-secondary sm:hidden">Frequency</p>
-          <p className="text-text-secondary sm:w-20">{FREQUENCY_LABEL[visitor.visitFrequency]}</p>
-        </div>
-        <div className="flex items-center sm:w-24 sm:justify-end">
-          {locked ? (
-            <button
-              type="button"
-              onClick={onUnlockClick}
-              className="flex items-center gap-1.5 rounded-full border border-accent-primary/30 bg-accent-primary/10 px-2.5 py-1 text-xs font-medium text-violet-300 hover:bg-accent-primary/20"
-            >
-              <Lock className="h-3 w-3" aria-hidden="true" />
-              Unlock
-            </button>
-          ) : (
-            <span className="flex items-center gap-1.5 text-xs text-text-secondary">
-              <Eye className="h-3.5 w-3.5" aria-hidden="true" />
-              View
-            </span>
-          )}
-        </div>
-      </div>
+      {locked ? (
+        <button
+          type="button"
+          onClick={onUnlockClick}
+          className="gradient-cta flex min-h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-md)] text-sm font-semibold text-white transition-opacity hover:opacity-90"
+        >
+          <Lock className="h-4 w-4" aria-hidden="true" />
+          Unlock this visitor
+        </button>
+      ) : (
+        <span className="flex items-center gap-1.5 text-xs font-medium text-text-secondary">
+          <Eye className="h-3.5 w-3.5" aria-hidden="true" />
+          View full activity
+        </span>
+      )}
     </div>
   );
 }

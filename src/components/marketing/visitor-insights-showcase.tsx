@@ -3,6 +3,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { SectionHeading } from "./section-heading";
 import { DEMO_VISITORS } from "@/data/demo-dashboard";
+import { maskUsername } from "@/lib/utils";
 
 export function VisitorInsightsShowcase() {
   const visitors = DEMO_VISITORS.slice(0, 5);
@@ -28,16 +29,15 @@ export function VisitorInsightsShowcase() {
                 key={visitor.id}
                 className="flex items-center gap-3 rounded-[var(--radius-md)] px-2 py-2.5 hover:bg-surface-2"
               >
-                <Avatar name={visitor.displayName} src={visitor.avatarUrl} size="sm" />
+                <Avatar
+                  name={visitor.displayName}
+                  src={visitor.avatarUrl}
+                  size="sm"
+                  className={index !== 0 ? "blur-[1px] grayscale-[0.3]" : undefined}
+                />
                 <div className="min-w-0 flex-1">
-                  <p
-                    className={
-                      index === 0
-                        ? "truncate text-sm font-medium text-text-primary"
-                        : "truncate text-sm font-medium text-text-primary blur-[3px] select-none"
-                    }
-                  >
-                    @{visitor.username}
+                  <p className="truncate text-sm font-medium text-text-primary">
+                    @{index === 0 ? visitor.username : maskUsername(visitor.username)}
                   </p>
                   <p className="text-xs text-text-secondary capitalize">
                     {visitor.status.replace(/-/g, " ")}
