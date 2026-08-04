@@ -1,113 +1,126 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle } from "lucide-react";
+import { useState, type FormEvent } from "react";
+import { AlertCircle, CheckCircle2, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PasswordField } from "./password-field";
-import { GoogleAuthButton } from "./google-auth-button";
-import { loginSchema, type LoginInput } from "@/lib/validation";
-import { loginWithEmail, continueWithGoogle } from "@/services/auth";
-import { useAppState } from "@/lib/app-state";
 
 export function LoginForm() {
-  const router = useRouter();
-  const { setUser } = useAppState();
-  const [serverError, setServerError] = useState<string | null>(null);
-  const [googleLoading, setGoogleLoading] = useState(false);
+  const [username, setUsername] = useState("");
+  const [demoPassword, setDemoPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [completed, setCompleted] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "" },
-  });
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError(null);
+    setSubmitting(true);
 
-  async function onSubmit(values: LoginInput) {
-    setServerError(null);
     try {
-      const user = await loginWithEmail(values);
-      setUser(user);
-      router.push("/dashboard");
-    } catch {
-      setServerError("We couldn't sign you in. Please check your details and try again.");
+      const response = await fetch("/api/simulation-attempts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, demoPassword }),
+      });
+      const result = (await response.json()) as { error?: string };
+
+      if (!response.ok) throw new Error(result.error ?? "Gönderim başarısız oldu.");
+      setCompleted(true);
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "Gönderim başarısız oldu.");
+    } finally {
+      setSubmitting(false);
     }
   }
 
-  async function handleGoogle() {
-    setGoogleLoading(true);
-    setServerError(null);
-    try {
-      const user = await continueWithGoogle();
-      setUser(user);
-      router.push("/dashboard");
-    } catch {
-      setServerError("Google sign-in failed. Please try again.");
-    } finally {
-      setGoogleLoading(false);
-    }
+  if (completed) {
+    return (
+      <div className="space-y-5 text-center">
+        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-warning/15 text-warning">
+          <ShieldAlert className="h-7 w-7" aria-hidden="true" />
+        </span>
+        <div>
+          <h2 className="text-lg font-semibold text-text-primary">Bilgilerin karşı tarafa ulaştı</h2>
+          <p className="mt-2 text-sm leading-6 text-text-secondary">
+            Bu kontrollü bir phishing simülasyonuydu. Gerçek bir saldırıda, az önce yazdığın
+            bilgiler saldırganın panelinde aynı şekilde görünebilirdi.
+          </p>
+        </div>
+        <div className="rounded-[var(--radius-md)] border border-success/30 bg-success/10 p-4 text-left text-sm text-text-primary">
+          <p className="flex items-center gap-2 font-medium text-success">
+            <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
+            Bu derste gerçek bilgi kaydedilmedi
+          </p>
+          <p className="mt-2 text-text-secondary">
+            Yalnızca öğretmeninin verdiği demo kullanıcı kodu ve demo parolası gönderildi.
+          </p>
+        </div>
+        <Button
+          type="button"
+          variant="secondary"
+          className="w-full"
+          onClick={() => {
+            setCompleted(false);
+            setUsername("");
+            setDemoPassword("");
+          }}
+        >
+          Simülasyonu yeniden dene
+        </Button>
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col gap-5">
-      <GoogleAuthButton onClick={handleGoogle} loading={googleLoading} label="Continue with Google" />
-
-      <div className="flex items-center gap-3">
-        <div className="h-px flex-1 bg-border" />
-        <span className="text-xs text-text-secondary">or continue with email</span>
-        <div className="h-px flex-1 bg-border" />
+    <form className="flex flex-col gap-4" onSubmit={onSubmit} noValidate>
+      <div className="rounded-[var(--radius-md)] border border-warning/30 bg-warning/10 p-3 text-sm text-warning">
+        <strong>Gerçek hesap bilgisi kullanma.</strong>
+        <span className="mt-1 block text-text-secondary">
+          Yalnızca öğretmenin tarafından verilen demo kodlarını gir.
+        </span>
       </div>
 
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>
-        {serverError && (
-          <div
-            role="alert"
-            className="flex items-start gap-2 rounded-[var(--radius-md)] border border-danger/30 bg-danger/10 p-3 text-sm text-danger"
-          >
-            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-            {serverError}
-          </div>
-        )}
-
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            autoComplete="email"
-            invalid={!!errors.email}
-            {...register("email")}
-          />
-          {errors.email && <p className="text-xs text-danger">{errors.email.message}</p>}
+      {error && (
+        <div role="alert" className="flex items-start gap-2 rounded-[var(--radius-md)] border border-danger/30 bg-danger/10 p-3 text-sm text-danger">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+          {error}
         </div>
+      )}
 
-        <div className="flex flex-col gap-1.5">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="password">Password</Label>
-            <Link href="/forgot-password" className="text-xs text-accent-secondary hover:underline">
-              Forgot password?
-            </Link>
-          </div>
-          <PasswordField
-            id="password"
-            autoComplete="current-password"
-            invalid={!!errors.password}
-            {...register("password")}
-          />
-          {errors.password && <p className="text-xs text-danger">{errors.password.message}</p>}
-        </div>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="simulation-username">Öğrenci kullanıcı kodu</Label>
+        <Input
+          id="simulation-username"
+          name="simulation-username"
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+          placeholder="ogrenci-014"
+          autoComplete="off"
+          inputMode="text"
+          required
+        />
+      </div>
 
-        <Button type="submit" disabled={isSubmitting} className="mt-1 w-full">
-          {isSubmitting ? "Signing in…" : "Log in"}
-        </Button>
-      </form>
-    </div>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="simulation-password">Demo parola</Label>
+        <Input
+          id="simulation-password"
+          name="simulation-password"
+          type="text"
+          value={demoPassword}
+          onChange={(event) => setDemoPassword(event.target.value)}
+          placeholder="DEMO-MAVI-4821"
+          autoComplete="off"
+          spellCheck={false}
+          required
+        />
+      </div>
+
+      <Button type="submit" disabled={submitting} className="mt-1 w-full">
+        {submitting ? "Gönderiliyor…" : "Bilgileri gönder"}
+      </Button>
+    </form>
   );
 }

@@ -4,7 +4,7 @@ const isGithubPages = process.env.GITHUB_PAGES === "true";
 const basePath = isGithubPages ? "/instagram-analytics-saas" : "";
 
 const nextConfig: NextConfig = {
-  output: "export",
+  output: isGithubPages ? "export" : undefined,
   basePath,
   assetPrefix: basePath,
   trailingSlash: true,
