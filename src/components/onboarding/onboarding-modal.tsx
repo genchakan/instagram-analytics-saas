@@ -13,9 +13,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
+import { StatusBadge } from "@/components/dashboard/status-badge";
+import { ActivityChartCard } from "@/components/dashboard/activity-chart-card";
 import { OnboardingProgress } from "./onboarding-progress";
 import { useAppState } from "@/lib/app-state";
 import { DEMO_METRICS, DEMO_VISITORS } from "@/data/demo-dashboard";
+import { cn, formatVisitTimestamp, maskUsername } from "@/lib/utils";
 
 const TOTAL_STEPS = 3;
 
@@ -61,7 +64,7 @@ export function OnboardingModal({
         if (!next) close();
       }}
     >
-      <DialogContent className="max-w-lg" onEscapeKeyDown={close}>
+      <DialogContent className={cn("transition-[max-width]", step === 0 ? "max-w-lg" : "max-w-2xl")} onEscapeKeyDown={close}>
         <div className="mb-5">
           <OnboardingProgress step={step} total={TOTAL_STEPS} />
         </div>
@@ -129,17 +132,20 @@ export function OnboardingModal({
               </DialogDescription>
             </DialogHeader>
 
-            <div className="rounded-[var(--radius-lg)] border border-border bg-surface-2 p-4">
+            <div className="rounded-[var(--radius-lg)] border border-border bg-surface-2 p-4 sm:p-5">
               <div className="mb-3 flex justify-end">
                 <Badge variant="demo">Example dashboard preview</Badge>
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-2.5">
                 {DEMO_METRICS.map((metric) => (
-                  <div key={metric.id} className="rounded-[var(--radius-md)] border border-border bg-surface-1 p-2.5">
-                    <p className="text-[10px] text-text-secondary">{metric.label}</p>
-                    <p className="mt-0.5 text-sm font-semibold text-text-primary">{metric.value}</p>
+                  <div key={metric.id} className="rounded-[var(--radius-md)] border border-border bg-surface-1 p-3">
+                    <p className="text-[11px] text-text-secondary">{metric.label}</p>
+                    <p className="mt-1 text-base font-semibold text-text-primary">{metric.value}</p>
                   </div>
                 ))}
+              </div>
+              <div className="mt-3">
+                <ActivityChartCard />
               </div>
             </div>
 
@@ -159,32 +165,46 @@ export function OnboardingModal({
         {step === 2 && (
           <>
             <DialogHeader>
-              <DialogTitle>Explore your visitor activity</DialogTitle>
+              <DialogTitle>See exactly when they were watching</DialogTitle>
               <DialogDescription>
-                Review recent activity, visit frequency and individual interest indicators.
+                Every visitor comes with an interest score, when they were last online, and the
+                exact day and time they showed up.
               </DialogDescription>
             </DialogHeader>
 
-            <div className="rounded-[var(--radius-lg)] border border-border bg-surface-2 p-3">
+            <div className="rounded-[var(--radius-lg)] border border-border bg-surface-2 p-3 sm:p-4">
               <div className="mb-2 flex justify-end px-1">
                 <Badge variant="demo">Demo data</Badge>
               </div>
               <div className="space-y-1.5">
-                {DEMO_VISITORS.slice(0, 3).map((visitor) => (
-                  <div
-                    key={visitor.id}
-                    className="flex items-center gap-2.5 rounded-[var(--radius-md)] bg-surface-1 px-2.5 py-2"
-                  >
-                    <Avatar name={visitor.displayName} src={visitor.avatarUrl} size="sm" />
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-xs font-medium text-text-primary">@{visitor.username}</p>
-                      <p className="text-[10px] text-text-secondary capitalize">
-                        {visitor.visitFrequency} · {visitor.status.replace(/-/g, " ")}
-                      </p>
+                {DEMO_VISITORS.slice(0, 4).map((visitor) => {
+                  const locked = visitor.isLocked;
+                  return (
+                    <div
+                      key={visitor.id}
+                      className="flex items-center gap-3 rounded-[var(--radius-md)] bg-surface-1 px-3 py-2.5"
+                    >
+                      <Avatar
+                        name={visitor.displayName}
+                        src={visitor.avatarUrl}
+                        size="sm"
+                        className={locked ? "blur-[1px] grayscale-[0.3]" : undefined}
+                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-xs font-medium text-text-primary">
+                          @{locked ? maskUsername(visitor.username) : visitor.username}
+                        </p>
+                        <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1">
+                          <StatusBadge status={visitor.status} />
+                          <span className="text-[11px] text-text-secondary">
+                            Last online {formatVisitTimestamp(visitor.lastActivityAt)}
+                          </span>
+                        </div>
+                      </div>
+                      <span className="shrink-0 text-sm font-bold text-text-primary">{visitor.interestScore}</span>
                     </div>
-                    <span className="text-xs font-semibold text-text-primary">{visitor.interestScore}</span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 

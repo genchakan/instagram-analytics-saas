@@ -1,12 +1,11 @@
 "use client";
 
 import { AtSign, ShieldCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export function OAuthIntroStep({ onContinue }: { onContinue: () => void }) {
   return (
     <div className="flex flex-col items-center gap-5 py-2 text-center">
-      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-fuchsia-500 to-violet-500">
+      <span className="gradient-cta flex h-14 w-14 items-center justify-center rounded-2xl">
         <AtSign className="h-6 w-6 text-white" aria-hidden="true" />
       </span>
 
@@ -17,10 +16,14 @@ export function OAuthIntroStep({ onContinue }: { onContinue: () => void }) {
         </p>
       </div>
 
-      <Button size="lg" onClick={onContinue} className="w-full">
-        <AtSign className="h-4 w-4" />
+      <button
+        type="button"
+        onClick={onContinue}
+        className="gradient-cta flex min-h-12 w-full items-center justify-center gap-2 rounded-[var(--radius-md)] text-base font-semibold text-white transition-opacity hover:opacity-90"
+      >
+        <AtSign className="h-4 w-4" aria-hidden="true" />
         Continue with Instagram
-      </Button>
+      </button>
 
       <p className="flex items-center gap-1.5 text-xs text-text-secondary">
         <ShieldCheck className="h-3.5 w-3.5 text-success" aria-hidden="true" />

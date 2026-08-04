@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Menu, Bell, Sparkles, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { useAppState } from "@/lib/app-state";
 
@@ -51,12 +50,13 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
         <span className="absolute right-2.5 top-2.5 h-1.5 w-1.5 rounded-full bg-accent-highlight" />
       </button>
 
-      <Button size="sm" variant="secondary" asChild className="hidden sm:inline-flex">
-        <Link href="/pricing">
-          <Sparkles className="h-3.5 w-3.5" />
-          Upgrade
-        </Link>
-      </Button>
+      <Link
+        href="/pricing"
+        className="gradient-cta hidden h-9 items-center gap-1.5 rounded-[var(--radius-md)] px-3.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 sm:inline-flex"
+      >
+        <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+        Upgrade
+      </Link>
 
       <Avatar name={user?.fullName ?? "You"} size="sm" />
     </header>

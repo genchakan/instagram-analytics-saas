@@ -5,10 +5,9 @@ import { cn } from "@/lib/utils";
 import { useAppState } from "@/lib/app-state";
 
 export function SetupChecklist() {
-  const { user, account, setConnectModalOpen, setOnboardingOpen } = useAppState();
+  const { account, setConnectModalOpen, setOnboardingOpen } = useAppState();
 
   const steps = [
-    { id: "learn", label: "Learn how the dashboard works", complete: !!user?.onboardingCompleted },
     { id: "connect", label: "Connect Instagram", complete: !!account },
     { id: "report", label: "View your first report", complete: !!account },
   ];
@@ -17,14 +16,14 @@ export function SetupChecklist() {
   const percent = Math.round((completeCount / steps.length) * 100);
 
   return (
-    <div className="overflow-hidden rounded-[var(--radius-lg)] border border-accent-primary/30 bg-surface-1">
+    <div className="overflow-hidden rounded-[var(--radius-lg)] border border-border bg-surface-1">
       {!account && (
         <div className="relative overflow-hidden border-b border-border bg-gradient-to-br from-surface-2 via-surface-1 to-surface-2 p-5 text-center sm:p-8">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_60%_at_50%_0%,rgba(139,92,246,0.18),transparent)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_60%_at_50%_0%,rgba(225,48,108,0.16),transparent)]"
           />
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-accent-primary/30 bg-accent-primary/10 px-3 py-1 text-xs font-medium text-violet-300">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-accent-highlight/30 bg-accent-highlight/10 px-3 py-1 text-xs font-medium text-fuchsia-300">
             <Eye className="h-3.5 w-3.5" aria-hidden="true" />
             One step left
           </span>

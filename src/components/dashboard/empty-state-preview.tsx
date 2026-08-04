@@ -14,12 +14,20 @@ export function EmptyStatePreview() {
 
   return (
     <div className="relative">
-      <div className="mb-3 flex justify-end">
+      <div className="mb-3 flex items-center justify-between">
+        <p className="text-xs font-medium text-text-secondary">Here&apos;s a peek at what you&apos;ll unlock</p>
         <DemoBadge label="Demo data — preview" />
       </div>
 
       <div className="relative">
-        <div aria-hidden="true" className="pointer-events-none select-none opacity-60 blur-[1.5px]">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none select-none opacity-60 blur-[1.5px]"
+          style={{
+            WebkitMaskImage: "linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)",
+            maskImage: "linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)",
+          }}
+        >
           <div className="grid grid-cols-3 gap-3">
             {DEMO_METRICS.map((metric) => (
               <Card key={metric.id}>
@@ -48,10 +56,14 @@ export function EmptyStatePreview() {
         </div>
 
         <div className="absolute inset-0 flex items-center justify-center p-4">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(7,8,18,0.85),transparent_70%)] sm:h-56 sm:w-56"
+          />
           <button
             type="button"
             onClick={() => setConnectModalOpen(true)}
-            className="gradient-cta flex min-h-11 items-center gap-2 rounded-full px-5 text-sm font-semibold text-white shadow-[0_8px_30px_-8px_rgba(225,48,108,0.5)] transition-opacity hover:opacity-90"
+            className="gradient-cta relative flex min-h-11 items-center gap-2 rounded-full px-5 text-sm font-semibold text-white shadow-[0_8px_30px_-8px_rgba(225,48,108,0.5)] transition-opacity hover:opacity-90"
           >
             <Lock className="h-4 w-4" aria-hidden="true" />
             Connect Instagram to unlock this

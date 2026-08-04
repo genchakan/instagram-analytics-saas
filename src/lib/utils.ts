@@ -21,6 +21,17 @@ export function formatRelativeTime(iso: string): string {
   return `${diffWeeks}w ago`;
 }
 
+/**
+ * Formats a timestamp as "Weekday, HH:MM" in 24-hour time, e.g. "Sunday, 21:10".
+ * Used for visitor "last seen" detail where the day and exact hour matter.
+ */
+export function formatVisitTimestamp(iso: string): string {
+  const date = new Date(iso);
+  const weekday = date.toLocaleDateString(undefined, { weekday: "long" });
+  const time = date.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", hour12: false });
+  return `${weekday}, ${time}`;
+}
+
 export function initials(name: string): string {
   const parts = name.trim().split(/\s+/);
   if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
