@@ -13,13 +13,17 @@ type Step = "intro" | "redirecting" | "form";
 
 export function ConnectionModal() {
   const router = useRouter();
-  const { user, connectModalOpen, setConnectModalOpen, setAccount } = useAppState();
+  const { user, connectModalOpen, setConnectModalOpen } = useAppState();
   const [step, setStep] = useState<Step>("intro");
 
   if (!user) return null;
 
-  function handleSuccess(account: ConnectedAccount) {
-    setAccount(account);
+  function handleSuccess(_account: ConnectedAccount) {
+    // Intentionally not calling setAccount here: doing so before the route
+    // transition finishes would flip the still-mounted /dashboard page to
+    // its "connected" view for a frame before we navigate away. The
+    // account is already persisted to storage by connectInstagramAccount();
+    // the progress page picks it up on mount, once it's the only thing shown.
     setConnectModalOpen(false);
     setStep("intro");
     router.push("/dashboard/connect/progress");

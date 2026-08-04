@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useAppState } from "@/lib/app-state";
+import { getStoredAccount } from "@/services/instagram-connection";
 
 const STEPS = [
   { label: "Verifying account details", durationMs: 1500 },
@@ -18,9 +20,18 @@ const STEPS = [
 
 export function ConnectionProgress() {
   const router = useRouter();
+  const { setAccount } = useAppState();
   const [activeStep, setActiveStep] = useState(0);
   const done = activeStep >= STEPS.length;
   const percent = Math.round((activeStep / STEPS.length) * 100);
+
+  useEffect(() => {
+    // Set once this progress screen is the only thing on screen, so the
+    // /dashboard page never briefly renders its "connected" view behind
+    // the connect modal while the route transition is still in flight.
+    setAccount(getStoredAccount());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (done) return;
