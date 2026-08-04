@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Orbit — Instagram Analytics SaaS (Prototype)
 
-## Getting Started
+A premium SaaS **prototype** for Instagram profile intelligence: profile
+activity, visitor insight signals and engagement patterns in one
+dashboard.
 
-First, run the development server:
+**This is a development prototype and is not intended for production
+use or real users.** See [`docs/SECURITY.md`](./docs/SECURITY.md) and
+[`docs/DEMO-MODE.md`](./docs/DEMO-MODE.md) for why, and what would need
+to change before any real launch.
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+No environment variables are required to run the app — everything runs
+on local mock providers and browser `localStorage`. See
+[`.env.example`](./.env.example) for the variables a future production
+integration would need.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Commands
 
-## Learn More
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build |
+| `npm run start` | Run the production build |
+| `npm run lint` | ESLint |
+| `npx tsc --noEmit` | Type-check |
 
-To learn more about Next.js, take a look at the following resources:
+## Documentation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) — folder structure, data flow, provider pattern
+- [`docs/AUTHENTICATION.md`](./docs/AUTHENTICATION.md) — mock auth flow
+- [`docs/INSTAGRAM-CONNECTION.md`](./docs/INSTAGRAM-CONNECTION.md) — the mock connection simulator and the path to a real Meta OAuth integration
+- [`docs/DEMO-MODE.md`](./docs/DEMO-MODE.md) — what data is real vs. demo
+- [`docs/SECURITY.md`](./docs/SECURITY.md) — security posture and limitations of this prototype
+- [`docs/USER-FLOW.md`](./docs/USER-FLOW.md) — the end-to-end user journey
+- [`docs/DESIGN-SYSTEM.md`](./docs/DESIGN-SYSTEM.md) — tokens, typography, motion, accessibility
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Product scope
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This prototype deliberately never claims to show real "who visited my
+Instagram profile" data — Instagram/Meta does not expose that
+information through any official channel, to anyone. Every dashboard,
+chart and visitor list in this app is built from a clearly labeled demo
+dataset (`src/data/demo-dashboard.ts`). See
+[`docs/DEMO-MODE.md`](./docs/DEMO-MODE.md).
