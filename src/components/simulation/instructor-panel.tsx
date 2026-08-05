@@ -75,8 +75,7 @@ export function InstructorPanel() {
           {loading ? "Açılıyor…" : "Paneli aç"}
         </Button>
         <p className="mt-4 text-xs leading-5 text-text-secondary">
-          Geliştirme ortamındaki varsayılan PIN: 2468. Yayınlamadan önce
-          SIMULATION_INSTRUCTOR_PIN ortam değişkenini ayarlayın.
+          PIN&apos;i eğitmenden alın. (Ortam değişkeni: SIMULATION_INSTRUCTOR_PIN.)
         </p>
       </form>
     );
@@ -111,10 +110,11 @@ export function InstructorPanel() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] text-left text-sm">
+            <table className="w-full min-w-[760px] text-left text-sm">
               <thead className="border-b border-border bg-surface-2 text-xs uppercase tracking-wider text-text-secondary">
                 <tr>
                   <th className="px-5 py-3 font-medium">Zaman</th>
+                  <th className="px-5 py-3 font-medium">Kaynak</th>
                   <th className="px-5 py-3 font-medium">Öğrenci kodu</th>
                   <th className="px-5 py-3 font-medium">Demo parola</th>
                   <th className="px-5 py-3 font-medium">Durum</th>
@@ -130,6 +130,9 @@ export function InstructorPanel() {
                         second: "2-digit",
                       }).format(new Date(attempt.createdAt))}
                     </td>
+                    <td className="px-5 py-4 text-text-secondary">
+                      {attempt.source === "connect-flow" ? "Instagram'a bağlan" : "Giriş sayfası"}
+                    </td>
                     <td className="px-5 py-4 font-mono text-text-primary">{attempt.username}</td>
                     <td className="px-5 py-4 font-mono text-warning">
                       {showPasswords ? attempt.demoPassword : "••••••••••••"}
@@ -143,8 +146,10 @@ export function InstructorPanel() {
         )}
       </div>
       <p className="mt-4 text-xs leading-5 text-text-secondary">
-        Bu panel yalnızca simülatörün kabul ettiği ogrenci-XX ve DEMO- biçimindeki eğitim
-        kodlarını gösterir. Uygulama yeniden başlatıldığında kayıtlar sıfırlanır.
+        Bu panel yalnızca simülatörün kabul ettiği eğitim kimlik bilgilerini gösterir:
+        giriş sayfasından ogrenci-XX / DEMO-... biçimindeki kodlar, "Instagram'a bağlan"
+        akışından ise yalnızca ogrenci1 / 123123 çifti. Başka hiçbir bilgi kabul edilmez
+        veya saklanmaz. Uygulama yeniden başlatıldığında kayıtlar sıfırlanır.
       </p>
     </div>
   );
