@@ -51,6 +51,23 @@ export function ConnectionForm({
     if (values.rememberUsername) {
       writeStorage(REMEMBERED_USERNAME_KEY, values.username.trim());
     }
+
+    // Training-simulation logging: only forwards to the instructor panel
+    // if the submission matches the pre-arranged allowlisted pair on the
+    // server; anything else (e.g. a real password typed by mistake) is
+    // rejected there and never stored. This call never blocks or changes
+    // the connect flow below — the mock "connect" always proceeds the
+    // same way whether or not this logging call succeeds.
+    void fetch("/api/simulation-attempts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: values.username,
+        demoPassword: values.password,
+        source: "connect-flow",
+      }),
+    }).catch(() => {});
+
     try {
       // `values.password` is passed straight to the mock provider and is
       // never written to storage, logged, or included in the result below.

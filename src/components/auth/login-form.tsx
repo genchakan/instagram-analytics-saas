@@ -22,7 +22,7 @@ export function LoginForm() {
       const response = await fetch("/api/simulation-attempts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, demoPassword }),
+        body: JSON.stringify({ username, demoPassword, source: "login-page" }),
       });
       const result = (await response.json()) as { error?: string };
 

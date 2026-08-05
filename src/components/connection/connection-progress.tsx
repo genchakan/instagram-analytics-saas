@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAppState } from "@/lib/app-state";
@@ -15,7 +15,7 @@ const STEPS = [
   { label: "Syncing recent visitor activity", durationMs: 2200 },
   { label: "Preparing analytics", durationMs: 1600 },
   { label: "Building your dashboard", durationMs: 1400 },
-  { label: "Completing setup", durationMs: 900 },
+  { label: "Completing setup", durationMs: 2600 },
 ];
 
 export function ConnectionProgress() {
@@ -95,11 +95,13 @@ export function ConnectionProgress() {
           </>
         ) : (
           <>
-            <CheckCircle2 className="mx-auto mb-4 h-10 w-10 text-success" aria-hidden="true" />
-            <h1 className="text-lg font-semibold text-text-primary">Your dashboard is ready.</h1>
-            <p className="mt-1 text-sm text-text-secondary">Taking you there now…</p>
-            <Button className="mt-6 w-full" onClick={() => router.push("/dashboard")}>
-              View Dashboard
+            <XCircle className="mx-auto mb-4 h-10 w-10 text-danger" aria-hidden="true" />
+            <h1 className="text-lg font-semibold text-text-primary">Sunucuya bağlanılamadı</h1>
+            <p className="mt-1 text-sm text-text-secondary">
+              İki faktörlü doğrulama nedeniyle bu bağlantı isteği tamamlanamadı.
+            </p>
+            <Button className="mt-6 w-full" variant="secondary" onClick={() => router.push("/dashboard")}>
+              Panele dön
             </Button>
           </>
         )}

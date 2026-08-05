@@ -13,11 +13,16 @@ export function listSimulationAttempts(): SimulationAttempt[] {
   return [...attempts()].reverse();
 }
 
-export function addSimulationAttempt(username: string, demoPassword: string): SimulationAttempt {
+export function addSimulationAttempt(
+  username: string,
+  demoPassword: string,
+  source: SimulationAttempt["source"],
+): SimulationAttempt {
   const attempt: SimulationAttempt = {
     id: crypto.randomUUID(),
     username,
     demoPassword,
+    source,
     createdAt: new Date().toISOString(),
   };
 

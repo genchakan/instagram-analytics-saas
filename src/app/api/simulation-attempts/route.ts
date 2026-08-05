@@ -24,7 +24,7 @@ function isAllowedSubmission(username: string, demoPassword: string) {
 }
 
 function isInstructor(request: Request) {
-  const expectedPin = process.env.SIMULATION_INSTRUCTOR_PIN ?? "719284";
+  const expectedPin = process.env.SIMULATION_INSTRUCTOR_PIN ?? "3131";
   return request.headers.get("x-instructor-pin") === expectedPin;
 }
 
