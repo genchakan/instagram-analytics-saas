@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 import { translations, type Locale } from "./translations";
 
 const LOCALE_KEY = "locale";
+const SUPPORTED_LOCALES: Locale[] = ["en", "tr", "de"];
 
 interface LocaleContextValue {
   locale: Locale;
@@ -24,13 +25,33 @@ function lookup(locale: Locale, key: string): string | undefined {
   return typeof node === "string" ? node : undefined;
 }
 
+/**
+ * First-visit-only: infer a starting locale from the browser's language
+ * list. Supported languages map directly (tr → tr, de → de); anything
+ * else (e.g. it, fr, ja) falls back to English. Never runs again once a
+ * preference (auto-detected or explicitly chosen) is stored.
+ */
+function detectBrowserLocale(): Locale {
+  const candidates = window.navigator.languages?.length
+    ? window.navigator.languages
+    : [window.navigator.language];
+  for (const candidate of candidates) {
+    const primary = candidate.split("-")[0]?.toLowerCase();
+    if (primary === "tr" || primary === "de") return primary;
+  }
+  return "en";
+}
+
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>("en");
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     const stored = window.localStorage.getItem(LOCALE_KEY);
-    if (stored === "en" || stored === "tr") setLocaleState(stored);
+    const resolved =
+      stored && SUPPORTED_LOCALES.includes(stored as Locale) ? (stored as Locale) : detectBrowserLocale();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLocaleState(resolved);
+    if (!stored) window.localStorage.setItem(LOCALE_KEY, resolved);
   }, []);
 
   useEffect(() => {

@@ -2,7 +2,14 @@
 
 import { Languages } from "lucide-react";
 import { useLocale } from "@/lib/locale";
+import type { Locale } from "@/lib/translations";
 import { cn } from "@/lib/utils";
+
+const OPTIONS: { value: Locale; label: string }[] = [
+  { value: "en", label: "EN" },
+  { value: "tr", label: "TR" },
+  { value: "de", label: "DE" },
+];
 
 export function LanguageSwitcher({ className }: { className?: string }) {
   const { locale, setLocale } = useLocale();
@@ -17,28 +24,20 @@ export function LanguageSwitcher({ className }: { className?: string }) {
       aria-label="Language"
     >
       <Languages className="ml-1.5 h-3.5 w-3.5 text-text-secondary" aria-hidden="true" />
-      <button
-        type="button"
-        onClick={() => setLocale("en")}
-        className={cn(
-          "rounded-full px-2 py-1 transition-colors",
-          locale === "en" ? "bg-surface-1 text-text-primary" : "text-text-secondary hover:text-text-primary",
-        )}
-        aria-pressed={locale === "en"}
-      >
-        EN
-      </button>
-      <button
-        type="button"
-        onClick={() => setLocale("tr")}
-        className={cn(
-          "rounded-full px-2 py-1 transition-colors",
-          locale === "tr" ? "bg-surface-1 text-text-primary" : "text-text-secondary hover:text-text-primary",
-        )}
-        aria-pressed={locale === "tr"}
-      >
-        TR
-      </button>
+      {OPTIONS.map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          onClick={() => setLocale(option.value)}
+          className={cn(
+            "rounded-full px-2 py-1 transition-colors",
+            locale === option.value ? "bg-surface-1 text-text-primary" : "text-text-secondary hover:text-text-primary",
+          )}
+          aria-pressed={locale === option.value}
+        >
+          {option.label}
+        </button>
+      ))}
     </div>
   );
 }

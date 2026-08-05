@@ -36,9 +36,6 @@ export function SiteHeader() {
 
         <div className="hidden items-center gap-3 lg:flex">
           <LanguageSwitcher />
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/login">{t("header.logIn")}</Link>
-          </Button>
           <Button size="sm" asChild>
             <Link href="/dashboard">{t("header.getStarted")}</Link>
           </Button>
@@ -77,9 +74,6 @@ export function SiteHeader() {
           </ul>
           <div className="mt-4 flex flex-col gap-3">
             <LanguageSwitcher className="self-start" />
-            <Button variant="secondary" asChild className="w-full">
-              <Link href="/login">{t("header.logIn")}</Link>
-            </Button>
             <Button asChild className="w-full">
               <Link href="/dashboard">{t("header.getStartedFree")}</Link>
             </Button>

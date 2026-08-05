@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PasswordField } from "./password-field";
 import { GoogleAuthButton } from "./google-auth-button";
-import { registerSchema, type RegisterInput } from "@/lib/validation";
+import { getRegisterSchema, type RegisterInput } from "@/lib/validation";
 import { registerWithEmail, continueWithGoogle } from "@/services/auth";
 import { useAppState } from "@/lib/app-state";
 import { useLocale } from "@/lib/locale";
@@ -31,7 +31,7 @@ export function RegistrationForm() {
     watch,
     formState: { errors, isSubmitting },
   } = useForm<RegisterInput>({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(getRegisterSchema(t)),
     defaultValues: { fullName: "", email: "", password: "", terms: false },
   });
 

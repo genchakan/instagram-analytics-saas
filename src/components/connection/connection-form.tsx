@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { PasswordField } from "@/components/auth/password-field";
-import { connectInstagramSchema, type ConnectInstagramInputForm } from "@/lib/validation";
+import { getConnectInstagramSchema, type ConnectInstagramInputForm } from "@/lib/validation";
 import { readStorage, writeStorage } from "@/lib/storage";
 import { useLocale } from "@/lib/locale";
 import type { ConnectedAccount } from "@/types/account";
@@ -43,7 +43,7 @@ export function ConnectionForm({
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<ConnectInstagramInputForm>({
-    resolver: zodResolver(connectInstagramSchema),
+    resolver: zodResolver(getConnectInstagramSchema(t)),
     defaultValues: { username: rememberedUsername, password: "", rememberUsername: !!rememberedUsername },
   });
 
@@ -88,12 +88,10 @@ export function ConnectionForm({
         </div>
       </div>
 
-      <div className="flex items-start gap-2 rounded-[var(--radius-md)] border border-border bg-surface-2 p-3 text-xs text-text-secondary">
+      <div className="flex items-start gap-2 rounded-[var(--radius-md)] border border-accent-secondary/30 bg-surface-2 p-3 text-xs leading-relaxed text-text-primary">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent-secondary" aria-hidden="true" />
         {t("connect.autoSignInInfo")}
       </div>
-
-      <p className="text-xs text-text-secondary">{t("connect.twoFactorNote")}</p>
 
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>
         {error && (

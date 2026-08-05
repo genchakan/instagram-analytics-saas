@@ -15,9 +15,6 @@ export default function UnauthorizedPage() {
       <h1 className="text-2xl font-semibold text-text-primary">{t("legal.noAccess")}</h1>
       <p className="max-w-sm text-sm text-text-secondary">{t("legal.noAccessBody")}</p>
       <div className="flex gap-3">
-        <Button variant="secondary" asChild>
-          <Link href="/login">{t("header.logIn")}</Link>
-        </Button>
         <Button asChild>
           <Link href="/dashboard">{t("legal.goToDashboard")}</Link>
         </Button>

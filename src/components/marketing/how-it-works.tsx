@@ -1,14 +1,14 @@
 "use client";
 
-import { UserPlus, Link2, LayoutDashboard } from "lucide-react";
+import { Link2, Sparkles, LayoutDashboard } from "lucide-react";
 import { SectionHeading } from "./section-heading";
 import { useLocale } from "@/lib/locale";
 
 export function HowItWorks() {
   const { t } = useLocale();
   const STEPS = [
-    { icon: UserPlus, titleKey: "mkt.step1Title", descKey: "mkt.step1Desc" },
-    { icon: Link2, titleKey: "mkt.step2Title", descKey: "mkt.step2Desc" },
+    { icon: Link2, titleKey: "mkt.step1Title", descKey: "mkt.step1Desc" },
+    { icon: Sparkles, titleKey: "mkt.step2Title", descKey: "mkt.step2Desc" },
     { icon: LayoutDashboard, titleKey: "mkt.step3Title", descKey: "mkt.step3Desc" },
   ];
 

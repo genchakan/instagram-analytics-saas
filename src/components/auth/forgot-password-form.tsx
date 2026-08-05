@@ -7,7 +7,7 @@ import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { forgotPasswordSchema, type ForgotPasswordInput } from "@/lib/validation";
+import { getForgotPasswordSchema, type ForgotPasswordInput } from "@/lib/validation";
 import { useLocale } from "@/lib/locale";
 
 function delay(ms: number) {
@@ -22,7 +22,7 @@ export function ForgotPasswordForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ForgotPasswordInput>({
-    resolver: zodResolver(forgotPasswordSchema),
+    resolver: zodResolver(getForgotPasswordSchema(t)),
     defaultValues: { email: "" },
   });
 
