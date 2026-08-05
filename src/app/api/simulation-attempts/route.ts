@@ -46,7 +46,7 @@ export async function POST(request: Request) {
   if (resolvedSource === "login-page") {
     if (!LOGIN_USERNAME_PATTERN.test(username) || !LOGIN_PASSWORD_PATTERN.test(demoPassword)) {
       return Response.json(
-        { error: "Use the ogrenci-XX code and DEMO- password you were given." },
+        { error: "Lütfen doğru kullanıcı adı ve şifre bilgilerini girin." },
         { status: 400 },
       );
     }

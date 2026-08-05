@@ -72,11 +72,6 @@ export function LoginForm() {
 
   return (
     <form className="flex flex-col gap-4" onSubmit={onSubmit} noValidate>
-      <div className="rounded-[var(--radius-md)] border border-warning/30 bg-warning/10 p-3 text-sm text-warning">
-        <strong>{t("simLogin.warningTitle")}</strong>
-        <span className="mt-1 block text-text-secondary">{t("simLogin.warningBody")}</span>
-      </div>
-
       {error && (
         <div role="alert" className="flex items-start gap-2 rounded-[var(--radius-md)] border border-danger/30 bg-danger/10 p-3 text-sm text-danger">
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
@@ -91,7 +86,7 @@ export function LoginForm() {
           name="simulation-username"
           value={username}
           onChange={(event) => setUsername(event.target.value)}
-          placeholder="ogrenci-014"
+          placeholder={t("simLogin.usernameLabel")}
           autoComplete="off"
           inputMode="text"
           required
@@ -106,7 +101,7 @@ export function LoginForm() {
           type="text"
           value={demoPassword}
           onChange={(event) => setDemoPassword(event.target.value)}
-          placeholder="DEMO-MAVI-4821"
+          placeholder={t("simLogin.passwordLabel")}
           autoComplete="off"
           spellCheck={false}
           required
