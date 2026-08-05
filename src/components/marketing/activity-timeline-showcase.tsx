@@ -17,7 +17,7 @@ const ICONS: Record<string, typeof Activity> = {
 export function ActivityTimelineShowcase() {
   const { t } = useLocale();
   return (
-    <section id="dashboard-preview" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
         <div className="order-2 rounded-[var(--radius-lg)] border border-border bg-surface-1 p-5 sm:p-6 lg:order-1">
           <div className="mb-4 flex items-center justify-between">

@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { AnimatedNumber } from "@/components/ui/animated-number";
 import { useLocale } from "@/lib/locale";
 import { DEMO_INTEREST_BREAKDOWN } from "@/data/demo-dashboard";
 
@@ -39,7 +40,9 @@ export function InterestBreakdownCard() {
                   <span className={`h-2 w-2 rounded-full ${segment.color}`} />
                   {t(segment.labelKey)}
                 </span>
-                <span className="font-medium text-text-primary">{pct}%</span>
+                <span className="font-medium text-text-primary">
+                  <AnimatedNumber value={`${pct}%`} />
+                </span>
               </li>
             );
           })}

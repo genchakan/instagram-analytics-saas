@@ -3,6 +3,7 @@
 import { Lock, Eye, Flame } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { StatusBadge } from "./status-badge";
+import { AnimatedNumber } from "@/components/ui/animated-number";
 import { formatRelativeTime, maskUsername, cn } from "@/lib/utils";
 import { useLocale } from "@/lib/locale";
 import type { VisitorInsight } from "@/types/visitor";
@@ -69,7 +70,7 @@ export function VisitorRow({
             </p>
             <span className={cn("flex shrink-0 items-center gap-1 text-base font-bold", tier.text)}>
               {visitor.interestScore >= 85 && <Flame className="h-3.5 w-3.5" aria-hidden="true" />}
-              {visitor.interestScore}
+              <AnimatedNumber value={visitor.interestScore} />
             </span>
           </div>
           <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">

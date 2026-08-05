@@ -1,5 +1,6 @@
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { AnimatedNumber } from "@/components/ui/animated-number";
 import { cn } from "@/lib/utils";
 import type { MetricSummary } from "@/types/analytics";
 
@@ -14,7 +15,9 @@ export function MetricCard({ metric }: { metric: MetricSummary }) {
     <Card>
       <CardContent className="p-3.5 sm:p-4">
         <p className="text-xs text-text-secondary">{metric.label}</p>
-        <p className="mt-1 text-lg font-semibold text-text-primary sm:text-xl">{metric.value}</p>
+        <p className="mt-1 text-lg font-semibold text-text-primary sm:text-xl">
+          <AnimatedNumber value={metric.value} />
+        </p>
         {metric.change !== undefined && TrendIcon ? (
           <p className={cn("mt-1 flex items-center gap-1 text-xs font-medium", trendColor)}>
             <TrendIcon className="h-3 w-3" aria-hidden="true" />

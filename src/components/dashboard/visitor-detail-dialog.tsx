@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { StatusBadge } from "./status-badge";
+import { AnimatedNumber } from "@/components/ui/animated-number";
 import { formatRelativeTime } from "@/lib/utils";
 import { useLocale } from "@/lib/locale";
 import type { VisitorInsight } from "@/types/visitor";
@@ -39,7 +40,9 @@ export function VisitorDetailDialog({
             <dl className="mt-5 grid grid-cols-2 gap-4 text-sm">
               <div>
                 <dt className="text-xs text-text-secondary">{t("dash.interestScoreLabel")}</dt>
-                <dd className="font-medium text-text-primary">{visitor.interestScore} / 100</dd>
+                <dd className="font-medium text-text-primary">
+                  <AnimatedNumber value={visitor.interestScore} /> / 100
+                </dd>
               </div>
               <div>
                 <dt className="text-xs text-text-secondary">{t("dash.visitFrequencyLabel")}</dt>

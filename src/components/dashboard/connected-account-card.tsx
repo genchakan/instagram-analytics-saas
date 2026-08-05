@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
+import { AnimatedNumber } from "@/components/ui/animated-number";
 import { formatRelativeTime } from "@/lib/utils";
 import { useAppState } from "@/lib/app-state";
 import { useLocale } from "@/lib/locale";
@@ -59,7 +60,9 @@ export function ConnectedAccountCard() {
         <dl className="mt-4 grid grid-cols-2 gap-3 text-xs">
           <div>
             <dt className="text-text-secondary">{t("dash.followers")}</dt>
-            <dd className="font-medium text-text-primary">{account.followerCount.toLocaleString()}</dd>
+            <dd className="font-medium text-text-primary">
+              <AnimatedNumber value={account.followerCount.toLocaleString()} />
+            </dd>
           </div>
           <div>
             <dt className="text-text-secondary">{t("dash.lastSync")}</dt>

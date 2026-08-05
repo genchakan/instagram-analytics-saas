@@ -2,6 +2,7 @@ import { SiteHeader } from "@/components/marketing/site-header";
 import { Hero } from "@/components/marketing/hero";
 import { CredibilityStrip } from "@/components/marketing/credibility-strip";
 import { HowItWorks } from "@/components/marketing/how-it-works";
+import { PanelTour } from "@/components/marketing/panel-tour";
 import { VisitorInsightsShowcase } from "@/components/marketing/visitor-insights-showcase";
 import { ActivityTimelineShowcase } from "@/components/marketing/activity-timeline-showcase";
 import { FeatureGrid } from "@/components/marketing/feature-grid";
@@ -20,6 +21,7 @@ export default function Home() {
         <Hero />
         <CredibilityStrip />
         <HowItWorks />
+        <PanelTour />
         <VisitorInsightsShowcase />
         <ActivityTimelineShowcase />
         <FeatureGrid />

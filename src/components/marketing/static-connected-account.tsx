@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { AnimatedNumber } from "@/components/ui/animated-number";
 import { formatRelativeTime } from "@/lib/utils";
 import { useLocale } from "@/lib/locale";
 import { DEMO_ACCOUNT } from "@/data/demo-dashboard";
@@ -34,7 +35,9 @@ export function StaticConnectedAccount() {
         <dl className="mt-4 grid grid-cols-2 gap-3 text-xs">
           <div>
             <dt className="text-text-secondary">{t("dash.followers")}</dt>
-            <dd className="font-medium text-text-primary">{DEMO_ACCOUNT.followerCount.toLocaleString()}</dd>
+            <dd className="font-medium text-text-primary">
+              <AnimatedNumber value={DEMO_ACCOUNT.followerCount.toLocaleString()} />
+            </dd>
           </div>
           <div>
             <dt className="text-text-secondary">{t("dash.lastSync")}</dt>
