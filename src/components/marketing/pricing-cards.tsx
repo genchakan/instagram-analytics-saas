@@ -56,16 +56,18 @@ export function PricingCards({
                 </p>
               )}
 
-              {!compact && (
-                <ul className="mt-5 flex-1 space-y-2.5">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-sm text-text-secondary">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {/* On mobile, cards always stack vertically, so the feature
+                  list is what tells plans apart — keep it visible there
+                  even in "compact" mode. Only hide it at sm:+ when compact,
+                  where cards sit side by side and stay short on purpose. */}
+              <ul className={cn("mt-5 flex-1 space-y-2.5", compact && "sm:hidden")}>
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-2 text-sm text-text-secondary">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
 
               {onSelectPlan ? (
                 <Button
