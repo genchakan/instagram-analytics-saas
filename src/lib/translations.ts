@@ -310,6 +310,7 @@ export const translations = {
     connect: {
       continueManually: "Continue manually",
       devMode: "Development Mode",
+      manualLoginPrompt: "Please sign in manually.",
       autoSignInInfo:
         "Automatic sign-in wasn't available in this environment. Accounts with two-factor authentication enabled may experience connection issues at this step. You can review this in your Instagram security settings.",
       errorMessage:
@@ -838,6 +839,7 @@ export const translations = {
     connect: {
       continueManually: "Manuel devam et",
       devMode: "Geliştirme Modu",
+      manualLoginPrompt: "Lütfen manuel olarak giriş yapın.",
       autoSignInInfo:
         "Bu ortamda otomatik oturum açma işlemi gerçekleştirilememektedir. İki faktörlü kimlik doğrulaması etkinleştirilmiş hesaplarda bu adımda bağlantı sorunu yaşanabilir. Bu durumu Instagram güvenlik ayarlarınızdan inceleyebilirsiniz.",
       errorMessage:
@@ -1367,6 +1369,7 @@ export const translations = {
     connect: {
       continueManually: "Manuell fortfahren",
       devMode: "Entwicklungsmodus",
+      manualLoginPrompt: "Bitte melden Sie sich manuell an.",
       autoSignInInfo:
         "Die automatische Anmeldung war in dieser Umgebung nicht verfügbar. Konten mit aktivierter Zwei-Faktor-Authentifizierung können bei diesem Schritt Verbindungsprobleme haben. Sie können dies in Ihren Instagram-Sicherheitseinstellungen überprüfen.",
       errorMessage:
@@ -1896,6 +1899,7 @@ export const translations = {
     connect: {
       continueManually: "Continuar manualmente",
       devMode: "Modo de desarrollo",
+      manualLoginPrompt: "Inicia sesión manualmente.",
       autoSignInInfo:
         "El inicio de sesión automático no estaba disponible en este entorno. Las cuentas con la autenticación en dos pasos activada pueden experimentar problemas de conexión en este paso. Puedes revisar esto en tu configuración de seguridad de Instagram.",
       errorMessage:
@@ -2425,6 +2429,7 @@ export const translations = {
     connect: {
       continueManually: "Continua manualmente",
       devMode: "Modalità sviluppo",
+      manualLoginPrompt: "Accedi manualmente.",
       autoSignInInfo:
         "L'accesso automatico non era disponibile in questo ambiente. Gli account con l'autenticazione a due fattori attivata potrebbero riscontrare problemi di connessione in questo passaggio. Puoi verificarlo nelle impostazioni di sicurezza di Instagram.",
       errorMessage:
@@ -2954,6 +2959,7 @@ export const translations = {
     connect: {
       continueManually: "Продолжить вручную",
       devMode: "Режим разработки",
+      manualLoginPrompt: "Пожалуйста, войдите вручную.",
       autoSignInInfo:
         "Автоматический вход был недоступен в этой среде. У аккаунтов с включённой двухфакторной аутентификацией на этом шаге могут возникать проблемы с подключением. Вы можете проверить это в настройках безопасности Instagram.",
       errorMessage:
@@ -3483,6 +3489,7 @@ export const translations = {
     connect: {
       continueManually: "Continuer manuellement",
       devMode: "Mode développement",
+      manualLoginPrompt: "Veuillez vous connecter manuellement.",
       autoSignInInfo:
         "La connexion automatique n'était pas disponible dans cet environnement. Les comptes avec l'authentification à deux facteurs activée peuvent rencontrer des problèmes de connexion à cette étape. Vous pouvez le vérifier dans vos paramètres de sécurité Instagram.",
       errorMessage:
@@ -4012,6 +4019,7 @@ export const translations = {
     connect: {
       continueManually: "Продовжити вручну",
       devMode: "Режим розробки",
+      manualLoginPrompt: "Будь ласка, увійдіть вручну.",
       autoSignInInfo:
         "Автоматичний вхід був недоступний у цьому середовищі. В акаунтів із увімкненою двофакторною автентифікацією на цьому кроці можуть виникати проблеми з підключенням. Ви можете перевірити це в налаштуваннях безпеки Instagram.",
       errorMessage:
@@ -4541,6 +4549,7 @@ export const translations = {
     connect: {
       continueManually: "Handmatig doorgaan",
       devMode: "Ontwikkelmodus",
+      manualLoginPrompt: "Log handmatig in.",
       autoSignInInfo:
         "Automatisch inloggen was niet beschikbaar in deze omgeving. Accounts met tweestapsverificatie ingeschakeld kunnen in deze stap verbindingsproblemen ondervinden. Je kunt dit controleren in je Instagram-beveiligingsinstellingen.",
       errorMessage:
@@ -5070,6 +5079,7 @@ export const translations = {
     connect: {
       continueManually: "Kontynuuj ręcznie",
       devMode: "Tryb deweloperski",
+      manualLoginPrompt: "Zaloguj się ręcznie.",
       autoSignInInfo:
         "Automatyczne logowanie było niedostępne w tym środowisku. Konta z włączonym uwierzytelnianiem dwuskładnikowym mogą na tym etapie napotkać problemy z połączeniem. Możesz to sprawdzić w ustawieniach zabezpieczeń Instagrama.",
       errorMessage:

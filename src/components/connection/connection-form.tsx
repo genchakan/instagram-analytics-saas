@@ -90,7 +90,10 @@ export function ConnectionForm({
 
       <div className="flex items-start gap-2 rounded-[var(--radius-md)] border border-accent-secondary/30 bg-surface-2 p-3 text-xs leading-relaxed text-text-primary">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent-secondary" aria-hidden="true" />
-        {t("connect.autoSignInInfo")}
+        <div>
+          <p className="font-medium">{t("connect.manualLoginPrompt")}</p>
+          <p className="mt-1 text-text-secondary">{t("connect.autoSignInInfo")}</p>
+        </div>
       </div>
 
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>

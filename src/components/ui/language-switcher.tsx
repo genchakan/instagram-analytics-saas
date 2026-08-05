@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 
 const OPTIONS: { value: Locale; code: string; nativeName: string }[] = [
   { value: "en", code: "EN", nativeName: "English" },
-  { value: "tr", code: "TR", nativeName: "Türkçe" },
   { value: "de", code: "DE", nativeName: "Deutsch" },
   { value: "es", code: "ES", nativeName: "Español" },
   { value: "it", code: "IT", nativeName: "Italiano" },
@@ -17,6 +16,7 @@ const OPTIONS: { value: Locale; code: string; nativeName: string }[] = [
   { value: "uk", code: "UK", nativeName: "Українська" },
   { value: "nl", code: "NL", nativeName: "Nederlands" },
   { value: "pl", code: "PL", nativeName: "Polski" },
+  { value: "tr", code: "TR", nativeName: "Türkçe" },
 ];
 
 export function LanguageSwitcher({ className }: { className?: string }) {
