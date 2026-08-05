@@ -19,8 +19,8 @@ export function HeroVisitorTeaser() {
   const extraCount = preview.length - 1;
 
   return (
-    <div className="inline-flex items-center gap-3 rounded-full border border-border bg-surface-1/80 py-1.5 pr-4 pl-1.5 backdrop-blur">
-      <div className="flex -space-x-2.5">
+    <div className="inline-flex items-start gap-3 rounded-2xl border border-border bg-surface-1/80 py-2 pr-4 pl-1.5 backdrop-blur">
+      <div className="flex shrink-0 -space-x-2.5 pt-0.5">
         {preview.map((visitor, index) => (
           <Avatar
             key={visitor.id}
@@ -34,10 +34,10 @@ export function HeroVisitorTeaser() {
           />
         ))}
       </div>
-      <p className="text-left text-xs text-text-secondary sm:text-sm">
+      <p className="self-center text-left text-xs text-text-secondary sm:text-sm">
         {t("mkt.teaserViewed", { username: `@${first.username}`, count: extraCount })}
       </p>
-      <Badge variant="demo" className="hidden sm:inline-flex">
+      <Badge variant="demo" className="hidden shrink-0 self-center sm:inline-flex">
         {t("mkt.demoPreview")}
       </Badge>
     </div>

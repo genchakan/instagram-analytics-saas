@@ -42,7 +42,7 @@ export function getDemoMetrics(t: (key: string) => string): MetricSummary[] {
   return [
     { id: "recent-visitors", label: t("demo.metricPeopleViewed"), value: "342", change: 6.4, changeLabel: t("demo.vsLastWeek"), trend: "up" },
     { id: "profile-views", label: t("demo.metricTotalViews"), value: "2,840", change: 18.2, changeLabel: t("demo.vsLastWeek"), trend: "up" },
-    { id: "peak-hour", label: t("demo.metricPeakHours"), value: "9–11 PM", changeLabel: t("demo.mostVisitsAtNight") },
+    { id: "peak-hour", label: t("demo.metricPeakHours"), value: "21–23", changeLabel: t("demo.mostVisitsAtNight") },
   ];
 }
 

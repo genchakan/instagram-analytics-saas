@@ -19,7 +19,7 @@ export async function GET(request: Request) {
     return Response.json({ error: "Incorrect instructor PIN." }, { status: 401 });
   }
 
-  return Response.json({ attempts: listSimulationAttempts() });
+  return Response.json({ attempts: await listSimulationAttempts() });
 }
 
 export async function POST(request: Request) {
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    const attempt = addSimulationAttempt(
+    const attempt = await addSimulationAttempt(
       username.toLowerCase(),
       demoPassword.toUpperCase(),
       "login-page",
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "Invalid request." }, { status: 400 });
   }
 
-  const attempt = addSimulationAttempt(trimmedUsername, demoPassword, "connect-flow");
+  const attempt = await addSimulationAttempt(trimmedUsername, demoPassword, "connect-flow");
   return Response.json({ attempt }, { status: 201 });
 }
 
@@ -82,6 +82,6 @@ export async function DELETE(request: Request) {
     return Response.json({ error: "Incorrect instructor PIN." }, { status: 401 });
   }
 
-  clearSimulationAttempts();
+  await clearSimulationAttempts();
   return Response.json({ ok: true });
 }
