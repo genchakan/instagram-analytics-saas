@@ -5,7 +5,7 @@ import { Radio, RefreshCw, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useLocale } from "@/lib/locale";
+import { LOCALE_TO_INTL_TAG, useLocale } from "@/lib/locale";
 import type { SimulationAttempt } from "@/types/simulation";
 
 export function InstructorPanel() {
@@ -121,7 +121,7 @@ export function InstructorPanel() {
                 {attempts.map((attempt) => (
                   <tr key={attempt.id} className="hover:bg-surface-2/50">
                     <td className="whitespace-nowrap px-5 py-4 text-text-secondary">
-                      {new Intl.DateTimeFormat(locale === "tr" ? "tr-TR" : "en-US", {
+                      {new Intl.DateTimeFormat(LOCALE_TO_INTL_TAG[locale], {
                         hour: "2-digit",
                         minute: "2-digit",
                         second: "2-digit",

@@ -5,7 +5,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { AnimatedNumber } from "@/components/ui/animated-number";
 import { DemoBadge } from "@/components/dashboard/demo-badge";
-import { useLocale } from "@/lib/locale";
+import { LOCALE_TO_INTL_TAG, useLocale } from "@/lib/locale";
 import { DEMO_VISITORS, DEMO_ACTIVITY_SERIES_7D, getDemoMetrics } from "@/data/demo-dashboard";
 
 // Illustrative per-row stats for the hero preview only — the real
@@ -41,7 +41,7 @@ export function HeroPanelPreview() {
   const rows = DEMO_VISITORS.slice(0, 5).map((visitor, i) => ({ visitor, stats: ROW_STATS[i]! }));
   const { coords, line, area, w, h } = useSparkline();
   const dayLabels = DEMO_ACTIVITY_SERIES_7D.map((p) =>
-    new Date(p.date).toLocaleDateString(locale === "tr" ? "tr-TR" : locale === "de" ? "de-DE" : "en-US", {
+    new Date(p.date).toLocaleDateString(LOCALE_TO_INTL_TAG[locale], {
       month: "short",
       day: "numeric",
     }),

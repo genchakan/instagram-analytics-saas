@@ -4,7 +4,21 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 import { translations, type Locale } from "./translations";
 
 const LOCALE_KEY = "locale";
-const SUPPORTED_LOCALES: Locale[] = ["en", "tr", "de"];
+const SUPPORTED_LOCALES: Locale[] = ["en", "tr", "de", "es", "it", "ru", "fr", "uk", "nl", "pl"];
+
+/** BCP-47 tag for each supported locale, for use with Intl APIs (Intl.DateTimeFormat, toLocaleDateString, …). */
+export const LOCALE_TO_INTL_TAG: Record<Locale, string> = {
+  en: "en-US",
+  tr: "tr-TR",
+  de: "de-DE",
+  es: "es-ES",
+  it: "it-IT",
+  ru: "ru-RU",
+  fr: "fr-FR",
+  uk: "uk-UA",
+  nl: "nl-NL",
+  pl: "pl-PL",
+};
 
 interface LocaleContextValue {
   locale: Locale;
@@ -25,10 +39,12 @@ function lookup(locale: Locale, key: string): string | undefined {
   return typeof node === "string" ? node : undefined;
 }
 
+const NON_ENGLISH_LOCALES = new Set<Locale>(["tr", "de", "es", "it", "ru", "fr", "uk", "nl", "pl"]);
+
 /**
  * First-visit-only: infer a starting locale from the browser's language
- * list. Supported languages map directly (tr → tr, de → de); anything
- * else (e.g. it, fr, ja) falls back to English. Never runs again once a
+ * list. Supported languages map directly (tr → tr, de → de, …); anything
+ * else (e.g. ja, pt) falls back to English. Never runs again once a
  * preference (auto-detected or explicitly chosen) is stored.
  */
 function detectBrowserLocale(): Locale {
@@ -37,7 +53,7 @@ function detectBrowserLocale(): Locale {
     : [window.navigator.language];
   for (const candidate of candidates) {
     const primary = candidate.split("-")[0]?.toLowerCase();
-    if (primary === "tr" || primary === "de") return primary;
+    if (NON_ENGLISH_LOCALES.has(primary as Locale)) return primary as Locale;
   }
   return "en";
 }
