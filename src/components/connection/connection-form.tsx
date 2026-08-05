@@ -94,6 +94,11 @@ export function ConnectionForm({
         account connection below — credentials are not stored or sent to Instagram.
       </div>
 
+      <p className="text-xs text-text-secondary">
+        Accounts with two-factor authentication enabled may experience connection issues during
+        this step.
+      </p>
+
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>
         {error && (
           <div

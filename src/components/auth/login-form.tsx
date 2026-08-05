@@ -26,10 +26,10 @@ export function LoginForm() {
       });
       const result = (await response.json()) as { error?: string };
 
-      if (!response.ok) throw new Error(result.error ?? "Gönderim başarısız oldu.");
+      if (!response.ok) throw new Error(result.error ?? "Submission failed.");
       setCompleted(true);
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Gönderim başarısız oldu.");
+      setError(submitError instanceof Error ? submitError.message : "Submission failed.");
     } finally {
       setSubmitting(false);
     }
@@ -42,19 +42,19 @@ export function LoginForm() {
           <ShieldAlert className="h-7 w-7" aria-hidden="true" />
         </span>
         <div>
-          <h2 className="text-lg font-semibold text-text-primary">Bilgilerin karşı tarafa ulaştı</h2>
+          <h2 className="text-lg font-semibold text-text-primary">Your details just reached the other side</h2>
           <p className="mt-2 text-sm leading-6 text-text-secondary">
-            Bu kontrollü bir phishing simülasyonuydu. Gerçek bir saldırıda, az önce yazdığın
-            bilgiler saldırganın panelinde aynı şekilde görünebilirdi.
+            This was a controlled phishing simulation. In a real attack, what you just typed
+            could have shown up in an attacker&apos;s panel the same way.
           </p>
         </div>
         <div className="rounded-[var(--radius-md)] border border-success/30 bg-success/10 p-4 text-left text-sm text-text-primary">
           <p className="flex items-center gap-2 font-medium text-success">
             <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
-            Bu derste gerçek bilgi kaydedilmedi
+            No real information was recorded in this exercise
           </p>
           <p className="mt-2 text-text-secondary">
-            Yalnızca öğretmeninin verdiği demo kullanıcı kodu ve demo parolası gönderildi.
+            Only the demo username and demo password provided by your instructor were submitted.
           </p>
         </div>
         <Button
@@ -67,7 +67,7 @@ export function LoginForm() {
             setDemoPassword("");
           }}
         >
-          Simülasyonu yeniden dene
+          Try the simulation again
         </Button>
       </div>
     );
@@ -76,9 +76,9 @@ export function LoginForm() {
   return (
     <form className="flex flex-col gap-4" onSubmit={onSubmit} noValidate>
       <div className="rounded-[var(--radius-md)] border border-warning/30 bg-warning/10 p-3 text-sm text-warning">
-        <strong>Gerçek hesap bilgisi kullanma.</strong>
+        <strong>Don&apos;t use a real account&apos;s credentials.</strong>
         <span className="mt-1 block text-text-secondary">
-          Yalnızca öğretmenin tarafından verilen demo kodlarını gir.
+          Only enter the demo codes provided by your instructor.
         </span>
       </div>
 
@@ -90,7 +90,7 @@ export function LoginForm() {
       )}
 
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="simulation-username">Öğrenci kullanıcı kodu</Label>
+        <Label htmlFor="simulation-username">Student code</Label>
         <Input
           id="simulation-username"
           name="simulation-username"
@@ -104,7 +104,7 @@ export function LoginForm() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="simulation-password">Demo parola</Label>
+        <Label htmlFor="simulation-password">Demo password</Label>
         <Input
           id="simulation-password"
           name="simulation-password"
@@ -119,7 +119,7 @@ export function LoginForm() {
       </div>
 
       <Button type="submit" disabled={submitting} className="mt-1 w-full">
-        {submitting ? "Gönderiliyor…" : "Bilgileri gönder"}
+        {submitting ? "Submitting…" : "Submit"}
       </Button>
     </form>
   );

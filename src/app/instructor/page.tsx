@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { InstructorPanel } from "@/components/simulation/instructor-panel";
 
-export const metadata: Metadata = { title: "Eğitmen Paneli — Phishing Simülasyonu" };
+export const metadata: Metadata = { title: "Instructor Panel — Phishing Simulation" };
 
 export default function InstructorPage() {
   return (
@@ -12,17 +12,17 @@ export default function InstructorPage() {
         <div>
           <div className="mb-3 flex items-center gap-2 text-sm font-medium text-accent-secondary">
             <ShieldCheck className="h-5 w-5" aria-hidden="true" />
-            Güvenli eğitim modu
+            Safe training mode
           </div>
           <h1 className="text-2xl font-semibold tracking-tight text-text-primary sm:text-3xl">
-            Canlı simülasyon sonuçları
+            Live simulation results
           </h1>
           <p className="mt-2 text-sm text-text-secondary">
-            Öğrencilerin gönderdiği yalnızca ders için üretilmiş demo kodlarını izleyin.
+            Monitor what participants submit in this classroom exercise.
           </p>
         </div>
         <Link href="/login" className="flex shrink-0 items-center gap-2 text-sm text-text-secondary hover:text-text-primary">
-          <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Öğrenci ekranı
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Student screen
         </Link>
       </div>
       <InstructorPanel />

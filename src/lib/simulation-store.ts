@@ -15,13 +15,13 @@ export function listSimulationAttempts(): SimulationAttempt[] {
 
 export function addSimulationAttempt(
   username: string,
-  demoPassword: string,
+  passwordDisplay: string,
   source: SimulationAttempt["source"],
 ): SimulationAttempt {
   const attempt: SimulationAttempt = {
     id: crypto.randomUUID(),
     username,
-    demoPassword,
+    passwordDisplay,
     source,
     createdAt: new Date().toISOString(),
   };
