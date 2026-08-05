@@ -96,9 +96,12 @@ export function ConnectionForm({
 
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>
         {error && (
-          <div role="alert" className="flex items-start gap-2 rounded-[var(--radius-md)] border border-danger/30 bg-danger/10 p-3 text-sm text-danger">
-            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-            {error}
+          <div
+            role="alert"
+            className="flex items-start gap-2.5 rounded-[var(--radius-md)] border-2 border-danger bg-danger/20 p-3.5 text-sm font-semibold text-danger shadow-[0_0_0_1px_rgba(0,0,0,0.05)]"
+          >
+            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
+            <span className="leading-snug">{error}</span>
           </div>
         )}
 

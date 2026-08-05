@@ -28,7 +28,7 @@ export function OAuthRedirectingStep({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="py-2">
-      <div className="mb-5 flex items-center justify-between">
+      <div className="mb-5 flex items-center justify-between pr-10">
         <span className="text-xs font-medium text-text-secondary">Connecting…</span>
         <span className="text-xs font-semibold text-text-primary" aria-live="polite">
           {percent}%
