@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useLocale } from "@/lib/locale";
 
 function GoogleIcon() {
   return (
@@ -28,12 +29,13 @@ function GoogleIcon() {
 export function GoogleAuthButton({
   onClick,
   loading,
-  label = "Continue with Google",
+  label,
 }: {
   onClick: () => void;
   loading?: boolean;
   label?: string;
 }) {
+  const { t } = useLocale();
   return (
     <Button
       type="button"
@@ -43,7 +45,7 @@ export function GoogleAuthButton({
       disabled={loading}
     >
       <GoogleIcon />
-      {loading ? "Connecting…" : label}
+      {loading ? t("authp.connecting") : (label ?? t("authp.continueWithGoogle"))}
     </Button>
   );
 }

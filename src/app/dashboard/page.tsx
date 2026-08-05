@@ -10,27 +10,23 @@ import { ActivityTimeline } from "@/components/dashboard/activity-timeline";
 import { InterestBreakdownCard } from "@/components/dashboard/interest-breakdown-card";
 import { ConnectedAccountCard } from "@/components/dashboard/connected-account-card";
 import { DemoBadge } from "@/components/dashboard/demo-badge";
-import { DEMO_METRICS, DEMO_ACTIVITY_EVENTS, DEMO_VISITORS } from "@/data/demo-dashboard";
+import { useLocale } from "@/lib/locale";
+import { getDemoMetrics, getDemoActivityEvents, DEMO_VISITORS } from "@/data/demo-dashboard";
 
 export default function DashboardOverviewPage() {
   const { account } = useAppState();
+  const { t } = useLocale();
   const topVisitor = DEMO_VISITORS[0];
   const otherVisitorCount = DEMO_VISITORS.length - 1;
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-6">
       <div>
-        <h1 className="text-xl font-semibold text-text-primary sm:text-2xl">Dashboard</h1>
+        <h1 className="text-xl font-semibold text-text-primary sm:text-2xl">{t("dpages.overviewTitle")}</h1>
         <p className="mt-1 text-sm text-text-secondary">
-          {account ? (
-            <>
-              <span className="font-medium text-text-primary">@{topVisitor.username}</span> and{" "}
-              <span className="font-medium text-text-primary">{otherVisitorCount} others</span> viewed
-              your profile recently — here&apos;s who&apos;s paying attention.
-            </>
-          ) : (
-            "Connect your Instagram profile to see who's viewing and revisiting your profile."
-          )}
+          {account
+            ? t("dpages.overviewSubConnected", { username: `@${topVisitor.username}`, count: otherVisitorCount })
+            : t("dpages.overviewSubEmpty")}
         </p>
       </div>
 
@@ -46,7 +42,7 @@ export default function DashboardOverviewPage() {
           </div>
 
           <div className="grid grid-cols-3 gap-2.5 sm:gap-4">
-            {DEMO_METRICS.map((metric) => (
+            {getDemoMetrics(t).map((metric) => (
               <MetricCard key={metric.id} metric={metric} />
             ))}
           </div>
@@ -62,7 +58,7 @@ export default function DashboardOverviewPage() {
             </div>
           </div>
 
-          <ActivityTimeline events={DEMO_ACTIVITY_EVENTS} />
+          <ActivityTimeline events={getDemoActivityEvents(t)} />
         </div>
       )}
     </div>

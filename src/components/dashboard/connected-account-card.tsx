@@ -7,23 +7,26 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
+import { AnimatedNumber } from "@/components/ui/animated-number";
 import { formatRelativeTime } from "@/lib/utils";
 import { useAppState } from "@/lib/app-state";
+import { useLocale } from "@/lib/locale";
 import { disconnectAccount } from "@/services/instagram-connection";
 
 export function ConnectedAccountCard() {
   const { account, setAccount, setConnectModalOpen } = useAppState();
+  const { t } = useLocale();
   const [disconnecting, setDisconnecting] = useState(false);
 
   if (!account) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Connected account</CardTitle>
+          <CardTitle>{t("dash.connectedAccount")}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="mb-4 text-sm text-text-secondary">No Instagram profile connected yet.</p>
-          <Button onClick={() => setConnectModalOpen(true)}>Connect Instagram</Button>
+          <p className="mb-4 text-sm text-text-secondary">{t("dash.noAccount")}</p>
+          <Button onClick={() => setConnectModalOpen(true)}>{t("dash.connectInstagram")}</Button>
         </CardContent>
       </Card>
     );
@@ -40,7 +43,7 @@ export function ConnectedAccountCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Connected account</CardTitle>
+        <CardTitle>{t("dash.connectedAccount")}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-3">
@@ -50,17 +53,19 @@ export function ConnectedAccountCard() {
             <p className="text-xs text-text-secondary">{account.displayName}</p>
           </div>
           <Badge variant={account.connectionStatus === "connected" ? "success" : "danger"}>
-            {account.connectionStatus === "connected" ? "Connected" : "Disconnected"}
+            {account.connectionStatus === "connected" ? t("dash.connected") : t("dash.disconnected")}
           </Badge>
         </div>
 
         <dl className="mt-4 grid grid-cols-2 gap-3 text-xs">
           <div>
-            <dt className="text-text-secondary">Followers</dt>
-            <dd className="font-medium text-text-primary">{account.followerCount.toLocaleString()}</dd>
+            <dt className="text-text-secondary">{t("dash.followers")}</dt>
+            <dd className="font-medium text-text-primary">
+              <AnimatedNumber value={account.followerCount.toLocaleString()} />
+            </dd>
           </div>
           <div>
-            <dt className="text-text-secondary">Last sync</dt>
+            <dt className="text-text-secondary">{t("dash.lastSync")}</dt>
             <dd className="font-medium text-text-primary">
               {account.lastSyncAt ? formatRelativeTime(account.lastSyncAt) : "—"}
             </dd>
@@ -69,14 +74,14 @@ export function ConnectedAccountCard() {
 
         <div className="mt-5 flex flex-wrap gap-2">
           <Button variant="secondary" size="sm" asChild>
-            <Link href="/dashboard/accounts">Manage account</Link>
+            <Link href="/dashboard/accounts">{t("dash.manageAccount")}</Link>
           </Button>
           <Button variant="ghost" size="sm" onClick={() => setConnectModalOpen(true)}>
             <RefreshCw className="h-3.5 w-3.5" />
-            Reconnect
+            {t("dash.reconnect")}
           </Button>
           <Button variant="danger" size="sm" onClick={handleDisconnect} disabled={disconnecting}>
-            {disconnecting ? "Disconnecting…" : "Disconnect"}
+            {disconnecting ? t("dash.disconnecting") : t("dash.disconnect")}
           </Button>
         </div>
       </CardContent>

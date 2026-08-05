@@ -6,23 +6,25 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DemoBadge } from "@/components/dashboard/demo-badge";
 import { formatRelativeTime } from "@/lib/utils";
+import { useLocale } from "@/lib/locale";
 
 const DEMO_REPORTS = [
-  { id: "r1", title: "Weekly activity report", generatedAt: "2026-08-01T09:00:00Z", locked: false },
-  { id: "r2", title: "Visitor interest summary", generatedAt: "2026-07-25T09:00:00Z", locked: true },
-  { id: "r3", title: "Engagement pattern report", generatedAt: "2026-07-18T09:00:00Z", locked: true },
-  { id: "r4", title: "Weekly activity report", generatedAt: "2026-07-11T09:00:00Z", locked: true },
+  { id: "r1", titleKey: "dpages.reportWeekly", generatedAt: "2026-08-01T09:00:00Z", locked: false },
+  { id: "r2", titleKey: "dpages.reportVisitorSummary", generatedAt: "2026-07-25T09:00:00Z", locked: true },
+  { id: "r3", titleKey: "dpages.reportEngagement", generatedAt: "2026-07-18T09:00:00Z", locked: true },
+  { id: "r4", titleKey: "dpages.reportWeekly", generatedAt: "2026-07-11T09:00:00Z", locked: true },
 ];
 
 export default function ReportsPage() {
   const router = useRouter();
+  const { t } = useLocale();
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-text-primary sm:text-2xl">Reports</h1>
-          <p className="mt-1 text-sm text-text-secondary">Generated summaries of your profile activity.</p>
+          <h1 className="text-xl font-semibold text-text-primary sm:text-2xl">{t("dpages.reportsTitle")}</h1>
+          <p className="mt-1 text-sm text-text-secondary">{t("dpages.reportsSubtitle")}</p>
         </div>
         <DemoBadge />
       </div>
@@ -35,17 +37,19 @@ export default function ReportsPage() {
                 <FileText className="h-4.5 w-4.5 text-accent-secondary" aria-hidden="true" />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-text-primary">{report.title}</p>
-                <p className="text-xs text-text-secondary">Generated {formatRelativeTime(report.generatedAt)}</p>
+                <p className="truncate text-sm font-medium text-text-primary">{t(report.titleKey)}</p>
+                <p className="text-xs text-text-secondary">
+                  {t("dpages.generated", { time: formatRelativeTime(report.generatedAt) })}
+                </p>
               </div>
               {report.locked ? (
                 <Button size="sm" variant="secondary" onClick={() => router.push("/pricing")}>
                   <Lock className="h-3.5 w-3.5" />
-                  Upgrade
+                  {t("dpages.upgrade")}
                 </Button>
               ) : (
                 <Button size="sm" variant="secondary" disabled>
-                  View
+                  {t("dpages.view")}
                 </Button>
               )}
             </CardContent>

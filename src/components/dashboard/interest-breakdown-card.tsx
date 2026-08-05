@@ -1,20 +1,25 @@
+"use client";
+
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { AnimatedNumber } from "@/components/ui/animated-number";
+import { useLocale } from "@/lib/locale";
 import { DEMO_INTEREST_BREAKDOWN } from "@/data/demo-dashboard";
 
 const SEGMENTS = [
-  { key: "veryHigh", label: "Very high", color: "bg-accent-highlight" },
-  { key: "high", label: "High", color: "bg-accent-primary" },
-  { key: "medium", label: "Medium", color: "bg-accent-secondary" },
-  { key: "lowData", label: "Low data", color: "bg-surface-2" },
+  { key: "veryHigh", labelKey: "dash.segmentVeryHigh", color: "bg-accent-highlight" },
+  { key: "high", labelKey: "dash.segmentHigh", color: "bg-accent-primary" },
+  { key: "medium", labelKey: "dash.segmentMedium", color: "bg-accent-secondary" },
+  { key: "lowData", labelKey: "dash.segmentLowData", color: "bg-surface-2" },
 ] as const;
 
 export function InterestBreakdownCard() {
+  const { t } = useLocale();
   const total = Object.values(DEMO_INTEREST_BREAKDOWN).reduce((a, b) => a + b, 0);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Interest breakdown</CardTitle>
+        <CardTitle>{t("dash.interestBreakdown")}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex h-2.5 w-full overflow-hidden rounded-full">
@@ -33,9 +38,11 @@ export function InterestBreakdownCard() {
               <li key={segment.key} className="flex items-center justify-between text-sm">
                 <span className="flex items-center gap-2 text-text-secondary">
                   <span className={`h-2 w-2 rounded-full ${segment.color}`} />
-                  {segment.label}
+                  {t(segment.labelKey)}
                 </span>
-                <span className="font-medium text-text-primary">{pct}%</span>
+                <span className="font-medium text-text-primary">
+                  <AnimatedNumber value={`${pct}%`} />
+                </span>
               </li>
             );
           })}

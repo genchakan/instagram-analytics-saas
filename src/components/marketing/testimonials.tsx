@@ -1,44 +1,30 @@
-import { Badge } from "@/components/ui/badge";
+"use client";
+
 import { Avatar } from "@/components/ui/avatar";
 import { SectionHeading } from "./section-heading";
-
-const PLACEHOLDER_QUOTES = [
-  {
-    name: "Sample Creator",
-    role: "Illustrative example",
-    quote:
-      "Placeholder quote — this space is reserved for real customer feedback once the product is live.",
-  },
-  {
-    name: "Sample Studio",
-    role: "Illustrative example",
-    quote:
-      "Placeholder quote — early product prototypes typically don't have verified testimonials yet.",
-  },
-  {
-    name: "Sample Manager",
-    role: "Illustrative example",
-    quote: "Placeholder quote — replace with real, attributed feedback before launch.",
-  },
-];
+import { useLocale } from "@/lib/locale";
 
 export function Testimonials() {
+  const { t } = useLocale();
+  const QUOTES = [
+    { nameKey: "mkt.quote1Name", roleKey: "mkt.quote1Role", quoteKey: "mkt.quote1" },
+    { nameKey: "mkt.quote2Name", roleKey: "mkt.quote2Role", quoteKey: "mkt.quote2" },
+    { nameKey: "mkt.quote3Name", roleKey: "mkt.quote3Role", quoteKey: "mkt.quote3" },
+  ];
+
   return (
     <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <SectionHeading eyebrow="What people say" title="Early feedback" />
-      <div className="mt-6 flex justify-center">
-        <Badge variant="warning">Placeholder content — not real testimonials</Badge>
-      </div>
+      <SectionHeading eyebrow={t("mkt.testimonialsEyebrow")} title={t("mkt.testimonialsTitle")} />
 
       <div className="mt-8 grid gap-5 sm:grid-cols-3">
-        {PLACEHOLDER_QUOTES.map((item) => (
-          <figure key={item.name} className="rounded-[var(--radius-lg)] border border-border bg-surface-1 p-6">
-            <blockquote className="text-sm text-text-secondary">&ldquo;{item.quote}&rdquo;</blockquote>
+        {QUOTES.map((item) => (
+          <figure key={item.nameKey} className="rounded-[var(--radius-lg)] border border-border bg-surface-1 p-6">
+            <blockquote className="text-sm text-text-secondary">&ldquo;{t(item.quoteKey)}&rdquo;</blockquote>
             <figcaption className="mt-4 flex items-center gap-3">
-              <Avatar name={item.name} size="sm" />
+              <Avatar name={t(item.nameKey)} size="sm" />
               <div>
-                <p className="text-sm font-medium text-text-primary">{item.name}</p>
-                <p className="text-xs text-text-secondary">{item.role}</p>
+                <p className="text-sm font-medium text-text-primary">{t(item.nameKey)}</p>
+                <p className="text-xs text-text-secondary">{t(item.roleKey)}</p>
               </div>
             </figcaption>
           </figure>

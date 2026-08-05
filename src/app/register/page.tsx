@@ -1,25 +1,14 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+"use client";
+
 import { AuthLayout } from "@/components/auth/auth-layout";
 import { RegistrationForm } from "@/components/auth/registration-form";
 import { TrialNote } from "@/components/marketing/trial-note";
-
-export const metadata: Metadata = { title: "Create your account — Orbit" };
+import { useLocale } from "@/lib/locale";
 
 export default function RegisterPage() {
+  const { t } = useLocale();
   return (
-    <AuthLayout
-      title="Create your account"
-      description="Get started in seconds — no credit card, no waiting for email verification."
-      footer={
-        <>
-          Already have an account?{" "}
-          <Link href="/login" className="font-medium text-accent-secondary hover:underline">
-            Log in
-          </Link>
-        </>
-      }
-    >
+    <AuthLayout title={t("authp.registerTitle")} description={t("authp.registerDesc")}>
       <RegistrationForm />
       <div className="mt-6 flex justify-center">
         <TrialNote />

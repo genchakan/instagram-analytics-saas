@@ -12,13 +12,15 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PasswordField } from "./password-field";
 import { GoogleAuthButton } from "./google-auth-button";
-import { registerSchema, type RegisterInput } from "@/lib/validation";
+import { getRegisterSchema, type RegisterInput } from "@/lib/validation";
 import { registerWithEmail, continueWithGoogle } from "@/services/auth";
 import { useAppState } from "@/lib/app-state";
+import { useLocale } from "@/lib/locale";
 
 export function RegistrationForm() {
   const router = useRouter();
   const { setUser } = useAppState();
+  const { t } = useLocale();
   const [serverError, setServerError] = useState<string | null>(null);
   const [googleLoading, setGoogleLoading] = useState(false);
 
@@ -29,7 +31,7 @@ export function RegistrationForm() {
     watch,
     formState: { errors, isSubmitting },
   } = useForm<RegisterInput>({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(getRegisterSchema(t)),
     defaultValues: { fullName: "", email: "", password: "", terms: false },
   });
 
@@ -40,7 +42,7 @@ export function RegistrationForm() {
       setUser(user);
       router.push("/dashboard");
     } catch {
-      setServerError("Something went wrong creating your account. Please try again.");
+      setServerError(t("authp.registerError"));
     }
   }
 
@@ -52,7 +54,7 @@ export function RegistrationForm() {
       setUser(user);
       router.push("/dashboard");
     } catch {
-      setServerError("Google sign-up failed. Please try again.");
+      setServerError(t("authp.googleError"));
     } finally {
       setGoogleLoading(false);
     }
@@ -60,11 +62,11 @@ export function RegistrationForm() {
 
   return (
     <div className="flex flex-col gap-5">
-      <GoogleAuthButton onClick={handleGoogle} loading={googleLoading} label="Continue with Google" />
+      <GoogleAuthButton onClick={handleGoogle} loading={googleLoading} label={t("authp.continueWithGoogle")} />
 
       <div className="flex items-center gap-3">
         <div className="h-px flex-1 bg-border" />
-        <span className="text-xs text-text-secondary">or continue with email</span>
+        <span className="text-xs text-text-secondary">{t("authp.orContinueWithEmail")}</span>
         <div className="h-px flex-1 bg-border" />
       </div>
 
@@ -80,7 +82,7 @@ export function RegistrationForm() {
         )}
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="fullName">Full name</Label>
+          <Label htmlFor="fullName">{t("authp.fullName")}</Label>
           <Input
             id="fullName"
             autoComplete="name"
@@ -96,7 +98,7 @@ export function RegistrationForm() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("authp.email")}</Label>
           <Input
             id="email"
             type="email"
@@ -113,7 +115,7 @@ export function RegistrationForm() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t("authp.password")}</Label>
           <PasswordField
             id="password"
             autoComplete="new-password"
@@ -122,7 +124,7 @@ export function RegistrationForm() {
             {...register("password")}
           />
           <p id="password-hint" className="text-xs text-text-secondary">
-            At least 8 characters, with a letter and a number.
+            {t("authp.passwordHint")}
           </p>
           {errors.password && <p className="text-xs text-danger">{errors.password.message}</p>}
         </div>
@@ -135,13 +137,13 @@ export function RegistrationForm() {
             aria-describedby={errors.terms ? "terms-error" : undefined}
           />
           <Label htmlFor="terms" className="text-sm font-normal text-text-secondary">
-            I agree to the{" "}
+            {t("authp.agreeToPrefix")}{" "}
             <Link href="/terms" className="text-accent-secondary hover:underline">
-              Terms of Service
+              {t("footer.termsOfService")}
             </Link>{" "}
-            and{" "}
+            {t("authp.agreeToJoin")}{" "}
             <Link href="/privacy" className="text-accent-secondary hover:underline">
-              Privacy Policy
+              {t("footer.privacyPolicy")}
             </Link>
             .
           </Label>
@@ -153,7 +155,7 @@ export function RegistrationForm() {
         )}
 
         <Button type="submit" disabled={isSubmitting} className="mt-1 w-full">
-          {isSubmitting ? "Creating your account…" : "Create free account"}
+          {isSubmitting ? t("authp.creatingAccount") : t("authp.createFreeAccount")}
         </Button>
       </form>
     </div>

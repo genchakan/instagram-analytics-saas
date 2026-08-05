@@ -18,6 +18,28 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Phishing farkındalık simülasyonu
+
+Bu proje yalnızca öğretmenin ürettiği `ogrenci-XX` kullanıcı kodlarını ve
+`DEMO-...` biçimindeki sahte parolaları kabul eder. Gerçek e-posta veya parola
+kaydetmez.
+
+1. `npm run dev` komutunu çalıştırın.
+2. Öğrenci ekranını `http://localhost:3000/login` adresinde açın.
+3. Eğitmen panelini `http://localhost:3000/instructor` adresinde açın.
+4. Geliştirme ortamındaki varsayılan eğitmen PIN'i `2468`'dir.
+5. Örnek gönderim: kullanıcı `ogrenci-014`, parola `DEMO-MAVI-4821`.
+
+Farklı bir eğitmen PIN'iyle başlatmak için:
+
+```bash
+SIMULATION_INSTRUCTOR_PIN=7391 npm run dev
+```
+
+Kayıtlar yalnızca çalışan sunucunun belleğinde tutulur ve uygulama yeniden
+başlatıldığında silinir. Canlı API nedeniyle simülasyon GitHub Pages gibi tamamen
+statik bir barındırmada çalışmaz; Node.js destekleyen bir sunucuda çalıştırılmalıdır.
+
 No environment variables are required to run the app — everything runs
 on local mock providers and browser `localStorage`. See
 [`.env.example`](./.env.example) for the variables a future production

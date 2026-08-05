@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 export function AuthLayout({
   title,
@@ -18,13 +19,14 @@ export function AuthLayout({
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(60%_40%_at_50%_0%,rgba(139,92,246,0.15),transparent)]"
       />
-      <header className="flex h-16 items-center px-4 sm:px-6">
+      <header className="flex h-16 items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold text-text-primary">
           <span className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-gradient-to-br from-accent-primary-muted to-accent-secondary">
             <Sparkles className="h-4 w-4 text-white" aria-hidden="true" />
           </span>
           Orbit
         </Link>
+        <LanguageSwitcher />
       </header>
 
       <main className="flex flex-1 items-center justify-center px-4 py-10 sm:px-6">

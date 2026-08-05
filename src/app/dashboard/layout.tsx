@@ -5,16 +5,18 @@ import { DesktopSidebar, MobileSidebarDrawer } from "@/components/dashboard/side
 import { Topbar } from "@/components/dashboard/topbar";
 import { ConnectionModal } from "@/components/connection/connection-modal";
 import { useAppState } from "@/lib/app-state";
+import { useLocale } from "@/lib/locale";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { hydrated } = useAppState();
+  const { t } = useLocale();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   if (!hydrated) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-bg">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-accent-primary" />
-        <span className="sr-only">Loading dashboard…</span>
+        <span className="sr-only">{t("common.loadingDashboard")}</span>
       </div>
     );
   }

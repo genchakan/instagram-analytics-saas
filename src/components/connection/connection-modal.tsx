@@ -4,17 +4,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ConnectionForm } from "./connection-form";
-import { OAuthIntroStep } from "./oauth-intro-step";
 import { OAuthRedirectingStep } from "./oauth-redirecting-step";
 import { useAppState } from "@/lib/app-state";
 import type { ConnectedAccount } from "@/types/account";
 
-type Step = "intro" | "redirecting" | "form";
+type Step = "redirecting" | "form";
 
 export function ConnectionModal() {
   const router = useRouter();
   const { user, connectModalOpen, setConnectModalOpen } = useAppState();
-  const [step, setStep] = useState<Step>("intro");
+  const [step, setStep] = useState<Step>("redirecting");
 
   if (!user) return null;
 
@@ -25,19 +24,18 @@ export function ConnectionModal() {
     // account is already persisted to storage by connectInstagramAccount();
     // the progress page picks it up on mount, once it's the only thing shown.
     setConnectModalOpen(false);
-    setStep("intro");
+    setStep("redirecting");
     router.push("/dashboard/connect/progress");
   }
 
   function handleOpenChange(open: boolean) {
     setConnectModalOpen(open);
-    if (!open) setStep("intro");
+    if (!open) setStep("redirecting");
   }
 
   return (
     <Dialog open={connectModalOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-md">
-        {step === "intro" && <OAuthIntroStep onContinue={() => setStep("redirecting")} />}
         {step === "redirecting" && <OAuthRedirectingStep onDone={() => setStep("form")} />}
         {step === "form" && (
           <ConnectionForm

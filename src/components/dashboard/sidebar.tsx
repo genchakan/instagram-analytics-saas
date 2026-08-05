@@ -4,10 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { HelpCircle, Sparkles, X } from "lucide-react";
 import { DASHBOARD_NAV } from "@/data/navigation";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
+import { useLocale } from "@/lib/locale";
 import { cn } from "@/lib/utils";
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
+  const { t } = useLocale();
 
   return (
     <nav className="flex flex-col gap-1" aria-label="Dashboard">
@@ -27,7 +30,7 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
             )}
           >
             <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-            {item.label}
+            {t(item.labelKey)}
           </Link>
         );
       })}
@@ -36,15 +39,17 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 function SidebarBottom() {
+  const { t } = useLocale();
   return (
-    <div className="flex flex-col gap-1 border-t border-border pt-3">
+    <div className="flex flex-col gap-2 border-t border-border pt-3">
       <Link
         href="/contact"
         className="flex min-h-11 items-center gap-3 rounded-[var(--radius-md)] px-3 text-sm text-text-secondary hover:bg-surface-2 hover:text-text-primary"
       >
         <HelpCircle className="h-4 w-4" aria-hidden="true" />
-        Help
+        {t("nav.help")}
       </Link>
+      <LanguageSwitcher className="self-start" />
     </div>
   );
 }
@@ -67,13 +72,14 @@ export function DesktopSidebar() {
 }
 
 export function MobileSidebarDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useLocale();
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-50 lg:hidden">
       <button
         type="button"
-        aria-label="Close menu"
+        aria-label={t("header.closeMenu")}
         onClick={onClose}
         className="absolute inset-0 bg-black/70 backdrop-blur-sm"
       />
@@ -88,7 +94,7 @@ export function MobileSidebarDrawer({ open, onClose }: { open: boolean; onClose:
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close menu"
+            aria-label={t("header.closeMenu")}
             className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] text-text-secondary hover:bg-surface-2"
           >
             <X className="h-5 w-5" />

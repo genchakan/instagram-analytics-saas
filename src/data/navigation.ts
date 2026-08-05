@@ -1,28 +1,28 @@
 export const MARKETING_NAV = [
-  { label: "Product", href: "/#product" },
-  { label: "How It Works", href: "/#how-it-works" },
-  { label: "Features", href: "/#features" },
-  { label: "Dashboard", href: "/#dashboard-preview" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "FAQ", href: "/#faq" },
-];
+  { labelKey: "nav.product", href: "/#product" },
+  { labelKey: "nav.howItWorks", href: "/#how-it-works" },
+  { labelKey: "nav.features", href: "/#features" },
+  { labelKey: "nav.dashboard", href: "/#dashboard-preview" },
+  { labelKey: "nav.pricing", href: "/pricing" },
+  { labelKey: "nav.faq", href: "/#faq" },
+] as const;
 
 export const FOOTER_LINKS = {
   product: [
-    { label: "Features", href: "/#features" },
-    { label: "Pricing", href: "/pricing" },
-    { label: "Dashboard preview", href: "/#dashboard-preview" },
+    { labelKey: "nav.features", href: "/#features" },
+    { labelKey: "nav.pricing", href: "/pricing" },
+    { labelKey: "footer.dashboardPreview", href: "/#dashboard-preview" },
   ],
   company: [
-    { label: "Contact", href: "/contact" },
-    { label: "FAQ", href: "/#faq" },
+    { labelKey: "footer.contact", href: "/contact" },
+    { labelKey: "nav.faq", href: "/#faq" },
   ],
   legal: [
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
-    { label: "Imprint", href: "/imprint" },
+    { labelKey: "footer.privacyPolicy", href: "/privacy" },
+    { labelKey: "footer.termsOfService", href: "/terms" },
+    { labelKey: "footer.imprint", href: "/imprint" },
   ],
-};
+} as const;
 
 import type { LucideIcon } from "lucide-react";
 import {
@@ -37,18 +37,18 @@ import {
 } from "lucide-react";
 
 export interface DashboardNavItem {
-  label: string;
+  labelKey: string;
   href: string;
   icon: LucideIcon;
 }
 
 export const DASHBOARD_NAV: DashboardNavItem[] = [
-  { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Visitors", href: "/dashboard/visitors", icon: Users },
-  { label: "Activity", href: "/dashboard/activity", icon: Activity },
-  { label: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
-  { label: "Reports", href: "/dashboard/reports", icon: FileText },
-  { label: "Connected Accounts", href: "/dashboard/accounts", icon: Link2 },
-  { label: "Billing", href: "/dashboard/billing", icon: CreditCard },
-  { label: "Settings", href: "/dashboard/settings", icon: Settings },
+  { labelKey: "nav.overview", href: "/dashboard", icon: LayoutDashboard },
+  { labelKey: "nav.visitors", href: "/dashboard/visitors", icon: Users },
+  { labelKey: "nav.activity", href: "/dashboard/activity", icon: Activity },
+  { labelKey: "nav.analytics", href: "/dashboard/analytics", icon: BarChart3 },
+  { labelKey: "nav.reports", href: "/dashboard/reports", icon: FileText },
+  { labelKey: "nav.connectedAccounts", href: "/dashboard/accounts", icon: Link2 },
+  { labelKey: "nav.billing", href: "/dashboard/billing", icon: CreditCard },
+  { labelKey: "nav.settings", href: "/dashboard/settings", icon: Settings },
 ];

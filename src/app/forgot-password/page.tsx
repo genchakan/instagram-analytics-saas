@@ -1,21 +1,13 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+"use client";
+
 import { AuthLayout } from "@/components/auth/auth-layout";
 import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
-
-export const metadata: Metadata = { title: "Reset your password — Orbit" };
+import { useLocale } from "@/lib/locale";
 
 export default function ForgotPasswordPage() {
+  const { t } = useLocale();
   return (
-    <AuthLayout
-      title="Reset your password"
-      description="Enter the email on your account and we'll send you a reset link."
-      footer={
-        <Link href="/login" className="font-medium text-accent-secondary hover:underline">
-          Back to log in
-        </Link>
-      }
-    >
+    <AuthLayout title={t("authp.resetTitle")} description={t("authp.resetDesc")}>
       <ForgotPasswordForm />
     </AuthLayout>
   );

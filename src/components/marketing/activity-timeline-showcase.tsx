@@ -1,8 +1,11 @@
+"use client";
+
 import { Activity, MessageCircle, RotateCcw, FileText } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { SectionHeading } from "./section-heading";
-import { DEMO_ACTIVITY_EVENTS } from "@/data/demo-dashboard";
+import { getDemoActivityEvents } from "@/data/demo-dashboard";
 import { formatRelativeTime } from "@/lib/utils";
+import { useLocale } from "@/lib/locale";
 
 const ICONS: Record<string, typeof Activity> = {
   "profile-activity": Activity,
@@ -12,16 +15,17 @@ const ICONS: Record<string, typeof Activity> = {
 };
 
 export function ActivityTimelineShowcase() {
+  const { t } = useLocale();
   return (
-    <section id="dashboard-preview" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
         <div className="order-2 rounded-[var(--radius-lg)] border border-border bg-surface-1 p-5 sm:p-6 lg:order-1">
           <div className="mb-4 flex items-center justify-between">
-            <p className="text-sm font-medium text-text-primary">Activity timeline</p>
-            <Badge variant="demo">Demo data</Badge>
+            <p className="text-sm font-medium text-text-primary">{t("dash.activityTimeline")}</p>
+            <Badge variant="demo">{t("mkt.demoData")}</Badge>
           </div>
           <ol className="space-y-4">
-            {DEMO_ACTIVITY_EVENTS.map((event) => {
+            {getDemoActivityEvents(t).map((event) => {
               const Icon = ICONS[event.type] ?? Activity;
               return (
                 <li key={event.id} className="flex gap-3">
@@ -43,9 +47,9 @@ export function ActivityTimelineShowcase() {
 
         <SectionHeading
           align="left"
-          eyebrow="Activity timeline"
-          title="A clear log of everything that happens"
-          description="Profile activity, engagement signals, returning visitors and generated reports — all in one running timeline."
+          eyebrow={t("dash.activityTimeline")}
+          title={t("mkt.activityShowcaseTitle")}
+          description={t("mkt.activityShowcaseDesc")}
           className="order-1 lg:order-2"
         />
       </div>

@@ -3,16 +3,17 @@
 import { useEffect, useState } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const STEPS = [
-  { label: "Connecting to Instagram…", durationMs: 1600 },
-  { label: "Establishing secure session…", durationMs: 1900 },
-  { label: "Requesting account access…", durationMs: 1500 },
-  { label: "Verifying connection…", durationMs: 1700 },
-  { label: "Redirecting to sign-in…", durationMs: 1300 },
-];
+import { useLocale } from "@/lib/locale";
 
 export function OAuthRedirectingStep({ onDone }: { onDone: () => void }) {
+  const { t } = useLocale();
+  const STEPS = [
+    { label: t("oauthRedirect.step1"), durationMs: 1600 },
+    { label: t("oauthRedirect.step2"), durationMs: 1900 },
+    { label: t("oauthRedirect.step3"), durationMs: 1500 },
+    { label: t("oauthRedirect.step4"), durationMs: 1700 },
+    { label: t("oauthRedirect.step5"), durationMs: 1300 },
+  ];
   const [activeStep, setActiveStep] = useState(0);
   const done = activeStep >= STEPS.length;
   const percent = Math.round((activeStep / STEPS.length) * 100);
@@ -28,8 +29,8 @@ export function OAuthRedirectingStep({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="py-2">
-      <div className="mb-5 flex items-center justify-between">
-        <span className="text-xs font-medium text-text-secondary">Connecting…</span>
+      <div className="mb-5 flex items-center justify-between pr-10">
+        <span className="text-xs font-medium text-text-secondary">{t("oauthRedirect.connecting")}</span>
         <span className="text-xs font-semibold text-text-primary" aria-live="polite">
           {percent}%
         </span>
@@ -43,8 +44,8 @@ export function OAuthRedirectingStep({ onDone }: { onDone: () => void }) {
 
       <div className="text-center">
         <Loader2 className="mx-auto mb-5 h-8 w-8 animate-spin text-accent-secondary" aria-hidden="true" />
-        <h1 className="text-lg font-semibold text-text-primary">Connecting your account</h1>
-        <p className="mt-1 text-sm text-text-secondary">This may take a moment — don&apos;t close this window.</p>
+        <h1 className="text-lg font-semibold text-text-primary">{t("oauthRedirect.title")}</h1>
+        <p className="mt-1 text-sm text-text-secondary">{t("oauthRedirect.subtitle")}</p>
       </div>
 
       <ul className="mt-6 flex flex-col gap-3 text-left" aria-live="polite">

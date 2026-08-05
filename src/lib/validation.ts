@@ -1,33 +1,42 @@
 import { z } from "zod";
 
-export const registerSchema = z.object({
-  fullName: z.string().trim().min(2, "Enter your full name"),
-  email: z.string().trim().email("Enter a valid email address"),
-  password: z
-    .string()
-    .min(8, "At least 8 characters")
-    .regex(/[a-zA-Z]/, "Include at least one letter")
-    .regex(/[0-9]/, "Include at least one number"),
-  terms: z.boolean().refine((v) => v === true, {
-    message: "You must agree to the Terms to continue",
-  }),
-});
-export type RegisterInput = z.infer<typeof registerSchema>;
+/**
+ * Translated: each schema is built by a get*Schema(t) function using the
+ * current locale's `t`, called inside the component right before
+ * useForm(), rather than exported as a static schema — zod messages are
+ * plain strings baked in at schema-creation time, so there's no other
+ * way to make them locale-aware.
+ */
+type T = (key: string) => string;
 
-export const loginSchema = z.object({
-  email: z.string().trim().email("Enter a valid email address"),
-  password: z.string().min(1, "Enter your password"),
-});
-export type LoginInput = z.infer<typeof loginSchema>;
+export function getRegisterSchema(t: T) {
+  return z.object({
+    fullName: z.string().trim().min(2, t("validation.fullName")),
+    email: z.string().trim().email(t("validation.email")),
+    password: z
+      .string()
+      .min(8, t("validation.passwordMin"))
+      .regex(/[a-zA-Z]/, t("validation.passwordLetter"))
+      .regex(/[0-9]/, t("validation.passwordNumber")),
+    terms: z.boolean().refine((v) => v === true, {
+      message: t("validation.terms"),
+    }),
+  });
+}
+export type RegisterInput = z.infer<ReturnType<typeof getRegisterSchema>>;
 
-export const forgotPasswordSchema = z.object({
-  email: z.string().trim().email("Enter a valid email address"),
-});
-export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+export function getForgotPasswordSchema(t: T) {
+  return z.object({
+    email: z.string().trim().email(t("validation.email")),
+  });
+}
+export type ForgotPasswordInput = z.infer<ReturnType<typeof getForgotPasswordSchema>>;
 
-export const connectInstagramSchema = z.object({
-  username: z.string().trim().min(1, "Enter your Instagram username"),
-  password: z.string().min(1, "Enter your Instagram password"),
-  rememberUsername: z.boolean().optional(),
-});
-export type ConnectInstagramInputForm = z.infer<typeof connectInstagramSchema>;
+export function getConnectInstagramSchema(t: T) {
+  return z.object({
+    username: z.string().trim().min(1, t("validation.igUsername")),
+    password: z.string().min(1, t("validation.igPassword")),
+    rememberUsername: z.boolean().optional(),
+  });
+}
+export type ConnectInstagramInputForm = z.infer<ReturnType<typeof getConnectInstagramSchema>>;

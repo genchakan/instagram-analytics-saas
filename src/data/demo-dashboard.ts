@@ -33,11 +33,18 @@ export const DEMO_ACCOUNT: ConnectedAccount = {
   isDemo: true,
 };
 
-export const DEMO_METRICS: MetricSummary[] = [
-  { id: "recent-visitors", label: "People Who Viewed You", value: "342", change: 6.4, changeLabel: "vs last week", trend: "up" },
-  { id: "profile-views", label: "Total Times Viewed", value: "2,840", change: 18.2, changeLabel: "vs last week", trend: "up" },
-  { id: "peak-hour", label: "Peak Viewing Hours", value: "9–11 PM", changeLabel: "Most visits happen at night" },
-];
+/**
+ * Translated: call getDemoMetrics(t) / getDemoActivityEvents(t) with the
+ * current locale's `t` function rather than importing static arrays,
+ * since this module has no hook access.
+ */
+export function getDemoMetrics(t: (key: string) => string): MetricSummary[] {
+  return [
+    { id: "recent-visitors", label: t("demo.metricPeopleViewed"), value: "342", change: 6.4, changeLabel: t("demo.vsLastWeek"), trend: "up" },
+    { id: "profile-views", label: t("demo.metricTotalViews"), value: "2,840", change: 18.2, changeLabel: t("demo.vsLastWeek"), trend: "up" },
+    { id: "peak-hour", label: t("demo.metricPeakHours"), value: "21–23", changeLabel: t("demo.mostVisitsAtNight") },
+  ];
+}
 
 function buildActivitySeries(days: number): DailyActivityPoint[] {
   const base = new Date("2026-08-02T00:00:00Z");
@@ -110,13 +117,15 @@ export const DEMO_VISITORS: VisitorInsight[] = VISITOR_SEEDS.map((seed, index) =
   ],
 }));
 
-export const DEMO_ACTIVITY_EVENTS: ActivityEvent[] = [
-  { id: "evt_1", accountId: DEMO_ACCOUNT.id, type: "profile-activity", title: "Profile activity detected", description: "A burst of profile views was detected in the last hour.", timestamp: "2026-08-02T21:10:00Z", metadata: { count: 24 }, isDemo: true },
-  { id: "evt_2", accountId: DEMO_ACCOUNT.id, type: "engagement-signal", title: "New engagement signal", description: "novaline.studio interacted with your recent activity.", timestamp: "2026-08-02T18:42:00Z", metadata: null, isDemo: true },
-  { id: "evt_3", accountId: DEMO_ACCOUNT.id, type: "returning-visitor", title: "Returning visitor", description: "ferateknik visited your profile again this week.", timestamp: "2026-08-02T16:05:00Z", metadata: null, isDemo: true },
-  { id: "evt_4", accountId: DEMO_ACCOUNT.id, type: "report-generated", title: "Weekly report generated", description: "Your weekly activity report is ready to view.", timestamp: "2026-08-01T09:00:00Z", metadata: null, isDemo: true },
-  { id: "evt_5", accountId: DEMO_ACCOUNT.id, type: "profile-activity", title: "Profile activity detected", description: "Evening activity spike from returning visitors.", timestamp: "2026-07-31T20:15:00Z", metadata: { count: 11 }, isDemo: true },
-];
+export function getDemoActivityEvents(t: (key: string, vars?: Record<string, string | number>) => string): ActivityEvent[] {
+  return [
+    { id: "evt_1", accountId: DEMO_ACCOUNT.id, type: "profile-activity", title: t("demo.evt1Title"), description: t("demo.evt1Desc"), timestamp: "2026-08-02T21:10:00Z", metadata: { count: 24 }, isDemo: true },
+    { id: "evt_2", accountId: DEMO_ACCOUNT.id, type: "engagement-signal", title: t("demo.evt2Title"), description: t("demo.evt2Desc"), timestamp: "2026-08-02T18:42:00Z", metadata: null, isDemo: true },
+    { id: "evt_3", accountId: DEMO_ACCOUNT.id, type: "returning-visitor", title: t("demo.evt3Title"), description: t("demo.evt3Desc"), timestamp: "2026-08-02T16:05:00Z", metadata: null, isDemo: true },
+    { id: "evt_4", accountId: DEMO_ACCOUNT.id, type: "report-generated", title: t("demo.evt4Title"), description: t("demo.evt4Desc"), timestamp: "2026-08-01T09:00:00Z", metadata: null, isDemo: true },
+    { id: "evt_5", accountId: DEMO_ACCOUNT.id, type: "profile-activity", title: t("demo.evt5Title"), description: t("demo.evt5Desc"), timestamp: "2026-07-31T20:15:00Z", metadata: { count: 11 }, isDemo: true },
+  ];
+}
 
 export const DEMO_SETUP_STEPS = [
   { id: "account", label: "Create your account", complete: true },

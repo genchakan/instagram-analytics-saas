@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { FOOTER_LINKS } from "@/data/navigation";
+import { useLocale } from "@/lib/locale";
 
 export function SiteFooter() {
+  const { t } = useLocale();
   return (
     <footer className="border-t border-border/60">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -14,26 +18,31 @@ export function SiteFooter() {
               </span>
               Orbit
             </Link>
-            <p className="mt-3 max-w-xs text-sm text-text-secondary">
-              Instagram profile intelligence, built as a private prototype.
-            </p>
+            <p className="mt-3 max-w-xs text-sm text-text-secondary">{t("footer.tagline")}</p>
           </div>
 
-          <FooterColumn title="Product" links={FOOTER_LINKS.product} />
-          <FooterColumn title="Company" links={FOOTER_LINKS.company} />
-          <FooterColumn title="Legal" links={FOOTER_LINKS.legal} />
+          <FooterColumn title={t("footer.productCol")} links={FOOTER_LINKS.product} />
+          <FooterColumn title={t("footer.companyCol")} links={FOOTER_LINKS.company} />
+          <FooterColumn title={t("footer.legalCol")} links={FOOTER_LINKS.legal} />
         </div>
 
         <div className="mt-10 flex flex-col gap-3 border-t border-border/60 pt-6 text-xs text-text-secondary sm:flex-row sm:items-center sm:justify-between">
-          <p>&copy; {new Date().getFullYear()} Orbit. All rights reserved.</p>
-          <p>This application is not affiliated with Instagram or Meta.</p>
+          <p>&copy; {new Date().getFullYear()} Orbit. {t("footer.rights")}</p>
+          <p>{t("footer.disclaimer")}</p>
         </div>
       </div>
     </footer>
   );
 }
 
-function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string;
+  links: readonly { labelKey: string; href: string }[];
+}) {
+  const { t } = useLocale();
   return (
     <div>
       <p className="text-sm font-medium text-text-primary">{title}</p>
@@ -41,7 +50,7 @@ function FooterColumn({ title, links }: { title: string; links: { label: string;
         {links.map((link) => (
           <li key={link.href}>
             <Link href={link.href} className="text-sm text-text-secondary hover:text-text-primary">
-              {link.label}
+              {t(link.labelKey)}
             </Link>
           </li>
         ))}
