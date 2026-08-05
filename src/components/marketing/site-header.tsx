@@ -4,10 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { MARKETING_NAV } from "@/data/navigation";
+import { useLocale } from "@/lib/locale";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { t } = useLocale();
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 bg-bg/85 backdrop-blur-md">
@@ -26,24 +29,25 @@ export function SiteHeader() {
               href={item.href}
               className="text-sm text-text-secondary transition-colors hover:text-text-primary"
             >
-              {item.label}
+              {t(item.labelKey)}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-3 lg:flex">
+          <LanguageSwitcher />
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/login">Log in</Link>
+            <Link href="/login">{t("header.logIn")}</Link>
           </Button>
           <Button size="sm" asChild>
-            <Link href="/dashboard">Get Started</Link>
+            <Link href="/dashboard">{t("header.getStarted")}</Link>
           </Button>
         </div>
 
         <button
           type="button"
           className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] text-text-primary lg:hidden"
-          aria-label={open ? "Close menu" : "Open menu"}
+          aria-label={open ? t("header.closeMenu") : t("header.openMenu")}
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((v) => !v)}
@@ -66,17 +70,18 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className="block rounded-[var(--radius-md)] px-3 py-3 text-base text-text-secondary hover:bg-surface-1 hover:text-text-primary"
                 >
-                  {item.label}
+                  {t(item.labelKey)}
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="mt-4 flex flex-col gap-2">
+          <div className="mt-4 flex flex-col gap-3">
+            <LanguageSwitcher className="self-start" />
             <Button variant="secondary" asChild className="w-full">
-              <Link href="/login">Log in</Link>
+              <Link href="/login">{t("header.logIn")}</Link>
             </Button>
             <Button asChild className="w-full">
-              <Link href="/dashboard">Get Started Free</Link>
+              <Link href="/dashboard">{t("header.getStartedFree")}</Link>
             </Button>
           </div>
         </nav>

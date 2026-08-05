@@ -1,6 +1,9 @@
+"use client";
+
 import { Activity, MessageCircle, RotateCcw, FileText } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { formatRelativeTime } from "@/lib/utils";
+import { useLocale } from "@/lib/locale";
 import type { ActivityEvent, ActivityEventType } from "@/types/analytics";
 
 const ICONS: Record<ActivityEventType, typeof Activity> = {
@@ -10,11 +13,12 @@ const ICONS: Record<ActivityEventType, typeof Activity> = {
   "report-generated": FileText,
 };
 
-export function ActivityTimeline({ events, title = "Activity timeline" }: { events: ActivityEvent[]; title?: string }) {
+export function ActivityTimeline({ events, title }: { events: ActivityEvent[]; title?: string }) {
+  const { t } = useLocale();
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle>{title ?? t("dash.activityTimeline")}</CardTitle>
       </CardHeader>
       <CardContent>
         <ol className="space-y-4">

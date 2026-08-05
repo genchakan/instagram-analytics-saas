@@ -1,20 +1,21 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
 import { AuthLayout } from "@/components/auth/auth-layout";
 import { LoginForm } from "@/components/auth/login-form";
-
-export const metadata: Metadata = { title: "Student Screen — Phishing Simulation" };
+import { useLocale } from "@/lib/locale";
 
 export default function LoginPage() {
+  const { t } = useLocale();
   return (
     <AuthLayout
-      title="Phishing awareness simulation"
-      description="Start the controlled exercise with the demo details your instructor gave you."
+      title={t("simLogin.title")}
+      description={t("simLogin.description")}
       footer={
         <>
-          Are you the instructor?{" "}
+          {t("simLogin.instructorQuestion")}{" "}
           <Link href="/instructor" className="font-medium text-accent-secondary hover:underline">
-            Open the live results panel
+            {t("simLogin.openPanel")}
           </Link>
         </>
       }

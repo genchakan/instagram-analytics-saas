@@ -6,21 +6,22 @@ import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAppState } from "@/lib/app-state";
+import { useLocale } from "@/lib/locale";
 import { getStoredAccount } from "@/services/instagram-connection";
-
-const STEPS = [
-  { label: "Verifying account details", durationMs: 1500 },
-  { label: "Establishing secure connection", durationMs: 1900 },
-  { label: "Accessing basic profile data", durationMs: 1700 },
-  { label: "Syncing recent visitor activity", durationMs: 2200 },
-  { label: "Preparing analytics", durationMs: 1600 },
-  { label: "Building your dashboard", durationMs: 1400 },
-  { label: "Completing setup", durationMs: 2600 },
-];
 
 export function ConnectionProgress() {
   const router = useRouter();
   const { setAccount } = useAppState();
+  const { t } = useLocale();
+  const STEPS = [
+    { label: t("connectProgress.step1"), durationMs: 1500 },
+    { label: t("connectProgress.step2"), durationMs: 1900 },
+    { label: t("connectProgress.step3"), durationMs: 1700 },
+    { label: t("connectProgress.step4"), durationMs: 2200 },
+    { label: t("connectProgress.step5"), durationMs: 1600 },
+    { label: t("connectProgress.step6"), durationMs: 1400 },
+    { label: t("connectProgress.step7"), durationMs: 2600 },
+  ];
   const [activeStep, setActiveStep] = useState(0);
   const done = activeStep >= STEPS.length;
   const percent = Math.round((activeStep / STEPS.length) * 100);
@@ -51,7 +52,7 @@ export function ConnectionProgress() {
         {!done ? (
           <>
             <div className="mb-5 flex items-center justify-between">
-              <span className="text-xs font-medium text-text-secondary">Connecting…</span>
+              <span className="text-xs font-medium text-text-secondary">{t("oauthRedirect.connecting")}</span>
               <span className="text-xs font-semibold text-text-primary" aria-live="polite">
                 {percent}%
               </span>
@@ -64,8 +65,8 @@ export function ConnectionProgress() {
             </div>
 
             <Loader2 className="mx-auto mb-5 h-8 w-8 animate-spin text-accent-secondary" aria-hidden="true" />
-            <h1 className="text-lg font-semibold text-text-primary">Setting up your dashboard</h1>
-            <p className="mt-1 text-sm text-text-secondary">This may take a moment — don&apos;t close this window.</p>
+            <h1 className="text-lg font-semibold text-text-primary">{t("connectProgress.settingUp")}</h1>
+            <p className="mt-1 text-sm text-text-secondary">{t("connectProgress.dontClose")}</p>
 
             <ul className="mt-6 flex flex-col gap-3 text-left" aria-live="polite">
               {STEPS.map((step, index) => {
@@ -96,13 +97,10 @@ export function ConnectionProgress() {
         ) : (
           <>
             <XCircle className="mx-auto mb-4 h-10 w-10 text-danger" aria-hidden="true" />
-            <h1 className="text-lg font-semibold text-text-primary">We couldn't connect this account</h1>
-            <p className="mt-1 text-sm text-text-secondary">
-              This usually happens when two-factor authentication is turned on — verification could not be
-              completed automatically. Please try again.
-            </p>
+            <h1 className="text-lg font-semibold text-text-primary">{t("connectProgress.failTitle")}</h1>
+            <p className="mt-1 text-sm text-text-secondary">{t("connectProgress.failBody")}</p>
             <Button className="mt-6 w-full" variant="secondary" onClick={() => router.push("/dashboard")}>
-              Back to dashboard
+              {t("connectProgress.backToDashboard")}
             </Button>
           </>
         )}

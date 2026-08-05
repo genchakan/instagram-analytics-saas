@@ -2,6 +2,21 @@
 
 import dynamic from "next/dynamic";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { useLocale } from "@/lib/locale";
+
+function ActivityChartLoading() {
+  const { t } = useLocale();
+  return (
+    <Card>
+      <CardHeader className="flex-row items-center justify-between space-y-0">
+        <CardTitle>{t("dash.visitorActivity")}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="h-56 w-full animate-pulse rounded-[var(--radius-md)] bg-surface-2 sm:h-64" />
+      </CardContent>
+    </Card>
+  );
+}
 
 /**
  * recharts measures its container via a ResizeObserver after mount.
@@ -14,15 +29,6 @@ export const ActivityChartCard = dynamic(
   () => import("./activity-chart-inner").then((mod) => mod.ActivityChartCardInner),
   {
     ssr: false,
-    loading: () => (
-      <Card>
-        <CardHeader className="flex-row items-center justify-between space-y-0">
-          <CardTitle>Visitor activity</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-56 w-full animate-pulse rounded-[var(--radius-md)] bg-surface-2 sm:h-64" />
-        </CardContent>
-      </Card>
-    ),
+    loading: ActivityChartLoading,
   },
 );

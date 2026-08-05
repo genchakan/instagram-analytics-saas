@@ -3,18 +3,21 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { SectionHeading } from "./section-heading";
-import { FAQ_ITEMS } from "@/data/faq";
+import { getFaqItems } from "@/data/faq";
+import { useLocale } from "@/lib/locale";
 import { cn } from "@/lib/utils";
 
 export function FaqSection() {
+  const { t } = useLocale();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const items = getFaqItems(t);
 
   return (
     <section id="faq" className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <SectionHeading eyebrow="FAQ" title="Frequently asked questions" />
+      <SectionHeading eyebrow={t("mkt.faqEyebrow")} title={t("mkt.faqTitle")} />
 
       <div className="mt-10 divide-y divide-border rounded-[var(--radius-lg)] border border-border bg-surface-1">
-        {FAQ_ITEMS.map((item, index) => {
+        {items.map((item, index) => {
           const isOpen = openIndex === index;
           const panelId = `faq-panel-${index}`;
           return (

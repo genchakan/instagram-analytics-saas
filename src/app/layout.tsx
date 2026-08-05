@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AppStateProvider } from "@/lib/app-state";
+import { LocaleProvider } from "@/lib/locale";
 import { MotionProvider } from "@/components/motion-provider";
 
 const inter = Inter({
@@ -22,10 +23,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-text-primary">
         <MotionProvider>
-          <AppStateProvider>{children}</AppStateProvider>
+          <LocaleProvider>
+            <AppStateProvider>{children}</AppStateProvider>
+          </LocaleProvider>
         </MotionProvider>
       </body>
     </html>

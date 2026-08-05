@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useLocale } from "@/lib/locale";
 import { DEMO_ACTIVITY_SERIES_7D, DEMO_ACTIVITY_SERIES_30D } from "@/data/demo-dashboard";
 import type { DailyActivityPoint } from "@/types/analytics";
 
@@ -29,22 +30,31 @@ function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: 
   );
 }
 
-function summarize(data: DailyActivityPoint[]): string {
+function useSummarize(data: DailyActivityPoint[]): string {
+  const { t } = useLocale();
   const first = data[0];
   const last = data[data.length - 1];
   if (!first || !last) return "";
   const change = Math.round(((last.profileViews - first.profileViews) / first.profileViews) * 100);
-  return `Profile views went from ${first.profileViews.toLocaleString()} on ${first.date} to ${last.profileViews.toLocaleString()} on ${last.date}, a change of ${change > 0 ? "+" : ""}${change}%.`;
+  return t("dash.chartSummary", {
+    firstValue: first.profileViews.toLocaleString(),
+    firstDate: first.date,
+    lastValue: last.profileViews.toLocaleString(),
+    lastDate: last.date,
+    change: `${change > 0 ? "+" : ""}${change}`,
+  });
 }
 
 export function ActivityChartCardInner() {
+  const { t } = useLocale();
   const [range, setRange] = useState<"7d" | "30d">("7d");
   const data = range === "7d" ? DEMO_ACTIVITY_SERIES_7D : DEMO_ACTIVITY_SERIES_30D;
+  const summary = useSummarize(data);
 
   return (
     <Card>
       <CardHeader className="flex-row items-center justify-between space-y-0">
-        <CardTitle>Visitor activity</CardTitle>
+        <CardTitle>{t("dash.visitorActivity")}</CardTitle>
         <div className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 p-0.5">
           {(["7d", "30d"] as const).map((r) => (
             <button
@@ -57,13 +67,13 @@ export function ActivityChartCardInner() {
                 range === r ? "bg-accent-primary text-white" : "text-text-secondary hover:text-text-primary",
               )}
             >
-              {r === "7d" ? "7 days" : "30 days"}
+              {r === "7d" ? t("dash.days7") : t("dash.days30")}
             </button>
           ))}
         </div>
       </CardHeader>
       <CardContent>
-        <p className="sr-only">{summarize(data)}</p>
+        <p className="sr-only">{summary}</p>
         <div className="h-56 w-full sm:h-64" aria-hidden="true">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
@@ -93,7 +103,7 @@ export function ActivityChartCardInner() {
               <Area
                 type="monotone"
                 dataKey="profileViews"
-                name="Profile views"
+                name={t("dash.profileViews")}
                 stroke="#8B5CF6"
                 strokeWidth={2}
                 fill="url(#viewsGradient)"

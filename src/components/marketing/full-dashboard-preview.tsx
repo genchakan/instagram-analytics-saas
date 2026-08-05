@@ -1,10 +1,13 @@
+"use client";
+
 import { MetricCard } from "@/components/dashboard/metric-card";
 import { ActivityChartCard } from "@/components/dashboard/activity-chart-card";
 import { VisitorsPreviewCard } from "@/components/dashboard/visitors-preview-card";
 import { InterestBreakdownCard } from "@/components/dashboard/interest-breakdown-card";
 import { DemoBadge } from "@/components/dashboard/demo-badge";
 import { StaticConnectedAccount } from "./static-connected-account";
-import { DEMO_METRICS } from "@/data/demo-dashboard";
+import { getDemoMetrics } from "@/data/demo-dashboard";
+import { useLocale } from "@/lib/locale";
 
 /**
  * The real, populated dashboard — shown on the landing page so a visitor
@@ -12,6 +15,7 @@ import { DEMO_METRICS } from "@/data/demo-dashboard";
  * the same dashboard widgets (fed by demo data) as `/dashboard` itself.
  */
 export function FullDashboardPreview() {
+  const { t } = useLocale();
   return (
     <div
       aria-hidden="true"
@@ -22,7 +26,7 @@ export function FullDashboardPreview() {
       </div>
 
       <div className="grid grid-cols-3 gap-2.5 sm:gap-4">
-        {DEMO_METRICS.map((metric) => (
+        {getDemoMetrics(t).map((metric) => (
           <MetricCard key={metric.id} metric={metric} />
         ))}
       </div>

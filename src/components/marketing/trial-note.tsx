@@ -1,8 +1,12 @@
+"use client";
+
 import { CheckCircle2 } from "lucide-react";
-import { TRIAL_HEADLINE, TRIAL_SUBLINE } from "@/data/pricing";
+import { getTrialHeadline, getTrialSubline } from "@/data/pricing";
+import { useLocale } from "@/lib/locale";
 import { cn } from "@/lib/utils";
 
 export function TrialNote({ className }: { className?: string }) {
+  const { t } = useLocale();
   return (
     <p
       className={cn(
@@ -11,11 +15,11 @@ export function TrialNote({ className }: { className?: string }) {
       )}
     >
       <CheckCircle2 className="h-4 w-4 shrink-0" aria-hidden="true" />
-      <span className="text-text-primary">{TRIAL_HEADLINE}</span>
+      <span className="text-text-primary">{getTrialHeadline(t)}</span>
       <span className="text-success/50" aria-hidden="true">
         ·
       </span>
-      <span>{TRIAL_SUBLINE}</span>
+      <span>{getTrialSubline(t)}</span>
     </p>
   );
 }

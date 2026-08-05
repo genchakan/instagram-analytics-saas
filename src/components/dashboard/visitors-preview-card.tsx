@@ -4,16 +4,18 @@ import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { VisitorRow } from "./visitor-row";
+import { useLocale } from "@/lib/locale";
 import { DEMO_VISITORS } from "@/data/demo-dashboard";
 
 export function VisitorsPreviewCard() {
+  const { t } = useLocale();
   const visitors = DEMO_VISITORS.slice(0, 5);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Who&apos;s been watching you</CardTitle>
-        <CardDescription>Ranked by how much attention they&apos;re paying — highest interest first.</CardDescription>
+        <CardTitle>{t("dash.whosWatching")}</CardTitle>
+        <CardDescription>{t("dash.rankedBy")}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-2.5">
         {visitors.map((visitor) => (
@@ -22,7 +24,7 @@ export function VisitorsPreviewCard() {
       </CardContent>
       <CardFooter>
         <Button variant="secondary" asChild className="w-full">
-          <Link href="/dashboard/visitors">Unlock All Visitors</Link>
+          <Link href="/dashboard/visitors">{t("dash.unlockAllVisitors")}</Link>
         </Button>
       </CardFooter>
     </Card>

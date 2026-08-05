@@ -1,11 +1,22 @@
+"use client";
+
 import { Lock } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { SectionHeading } from "./section-heading";
 import { DEMO_VISITORS } from "@/data/demo-dashboard";
 import { maskUsername } from "@/lib/utils";
+import { useLocale } from "@/lib/locale";
+
+const STATUS_KEY: Record<string, string> = {
+  "active-now": "status.activeNow",
+  "recently-active": "status.recentlyActive",
+  "returning-visitor": "status.returningVisitor",
+  "new-signal": "status.newSignal",
+};
 
 export function VisitorInsightsShowcase() {
+  const { t } = useLocale();
   const visitors = DEMO_VISITORS.slice(0, 5);
 
   return (
@@ -13,15 +24,15 @@ export function VisitorInsightsShowcase() {
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
         <SectionHeading
           align="left"
-          eyebrow="Visitor insights"
-          title="Know who's engaging with your profile"
-          description="Every visitor gets an interest score, a status and a recent activity signal — so you can see who's worth a closer look."
+          eyebrow={t("mkt.visitorInsightsEyebrow")}
+          title={t("mkt.visitorInsightsTitle")}
+          description={t("mkt.visitorInsightsDesc")}
         />
 
         <div className="rounded-[var(--radius-lg)] border border-border bg-surface-1 p-3 sm:p-4">
           <div className="mb-2 flex items-center justify-between px-2">
-            <p className="text-xs text-text-secondary">Recent visitors</p>
-            <Badge variant="demo">Demo data</Badge>
+            <p className="text-xs text-text-secondary">{t("mkt.recentVisitors")}</p>
+            <Badge variant="demo">{t("mkt.demoData")}</Badge>
           </div>
           <div className="space-y-1.5">
             {visitors.map((visitor, index) => (
@@ -39,9 +50,7 @@ export function VisitorInsightsShowcase() {
                   <p className="truncate text-sm font-medium text-text-primary">
                     @{index === 0 ? visitor.username : maskUsername(visitor.username)}
                   </p>
-                  <p className="text-xs text-text-secondary capitalize">
-                    {visitor.status.replace(/-/g, " ")}
-                  </p>
+                  <p className="text-xs text-text-secondary">{t(STATUS_KEY[visitor.status] ?? "")}</p>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <span className="text-xs font-semibold text-text-primary">{visitor.interestScore}</span>

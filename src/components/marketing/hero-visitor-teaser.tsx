@@ -1,6 +1,9 @@
+"use client";
+
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { DEMO_VISITORS } from "@/data/demo-dashboard";
+import { useLocale } from "@/lib/locale";
 import { cn } from "@/lib/utils";
 
 /**
@@ -10,6 +13,7 @@ import { cn } from "@/lib/utils";
  * before they scroll to the full dashboard preview.
  */
 export function HeroVisitorTeaser() {
+  const { t } = useLocale();
   const preview = DEMO_VISITORS.slice(0, 5);
   const first = preview[0];
   const extraCount = preview.length - 1;
@@ -31,12 +35,10 @@ export function HeroVisitorTeaser() {
         ))}
       </div>
       <p className="text-left text-xs text-text-secondary sm:text-sm">
-        <span className="font-medium text-text-primary">@{first.username}</span> and{" "}
-        <span className="font-medium text-text-primary">{extraCount} others</span> viewed your
-        profile this week
+        {t("mkt.teaserViewed", { username: `@${first.username}`, count: extraCount })}
       </p>
       <Badge variant="demo" className="hidden sm:inline-flex">
-        Demo preview
+        {t("mkt.demoPreview")}
       </Badge>
     </div>
   );

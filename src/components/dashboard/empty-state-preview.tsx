@@ -4,19 +4,21 @@ import { Lock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { DemoBadge } from "./demo-badge";
 import { Avatar } from "@/components/ui/avatar";
-import { DEMO_METRICS, DEMO_VISITORS } from "@/data/demo-dashboard";
+import { getDemoMetrics, DEMO_VISITORS } from "@/data/demo-dashboard";
 import { maskUsername } from "@/lib/utils";
 import { useAppState } from "@/lib/app-state";
+import { useLocale } from "@/lib/locale";
 
 export function EmptyStatePreview() {
   const { setConnectModalOpen } = useAppState();
+  const { t } = useLocale();
   const visitors = DEMO_VISITORS.slice(0, 4);
 
   return (
     <div className="relative">
       <div className="mb-3 flex items-center justify-between">
-        <p className="text-xs font-medium text-text-secondary">Here&apos;s a peek at what you&apos;ll unlock</p>
-        <DemoBadge label="Demo data — preview" />
+        <p className="text-xs font-medium text-text-secondary">{t("dash.peekTitle")}</p>
+        <DemoBadge label={t("dash.demoPreview")} />
       </div>
 
       <div className="relative">
@@ -29,7 +31,7 @@ export function EmptyStatePreview() {
           }}
         >
           <div className="grid grid-cols-3 gap-3">
-            {DEMO_METRICS.map((metric) => (
+            {getDemoMetrics(t).map((metric) => (
               <Card key={metric.id}>
                 <CardContent className="p-4">
                   <p className="text-xs text-text-secondary">{metric.label}</p>
@@ -46,7 +48,9 @@ export function EmptyStatePreview() {
                   <Avatar name={visitor.displayName} src={visitor.avatarUrl} size="sm" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-text-primary">@{maskUsername(visitor.username)}</p>
-                    <p className="text-xs text-text-secondary">Interest score {visitor.interestScore}</p>
+                    <p className="text-xs text-text-secondary">
+                      {t("dash.interestScore", { score: visitor.interestScore })}
+                    </p>
                   </div>
                   <Lock className="h-4 w-4 shrink-0 text-text-secondary" aria-hidden="true" />
                 </div>
@@ -66,7 +70,7 @@ export function EmptyStatePreview() {
             className="gradient-cta relative flex min-h-11 items-center gap-2 rounded-full px-5 text-sm font-semibold text-white shadow-[0_8px_30px_-8px_rgba(225,48,108,0.5)] transition-opacity hover:opacity-90"
           >
             <Lock className="h-4 w-4" aria-hidden="true" />
-            Connect Instagram to unlock this
+            {t("dash.unlockCta")}
           </button>
         </div>
       </div>

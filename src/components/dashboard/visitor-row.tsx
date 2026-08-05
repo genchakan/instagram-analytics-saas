@@ -4,13 +4,14 @@ import { Lock, Eye, Flame } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { StatusBadge } from "./status-badge";
 import { formatRelativeTime, maskUsername, cn } from "@/lib/utils";
+import { useLocale } from "@/lib/locale";
 import type { VisitorInsight } from "@/types/visitor";
 
-const FREQUENCY_LABEL: Record<VisitorInsight["visitFrequency"], string> = {
-  daily: "Daily",
-  weekly: "Weekly",
-  occasional: "Occasional",
-  "one-time": "One-time",
+const FREQUENCY_KEY: Record<VisitorInsight["visitFrequency"], string> = {
+  daily: "dash.freqDaily",
+  weekly: "dash.freqWeekly",
+  occasional: "dash.freqOccasional",
+  "one-time": "dash.freqOneTime",
 };
 
 function scoreTier(score: number) {
@@ -29,6 +30,7 @@ export function VisitorRow({
   onClick?: () => void;
   onUnlockClick?: () => void;
 }) {
+  const { t } = useLocale();
   const locked = visitor.isLocked;
   const tier = scoreTier(visitor.interestScore);
 
@@ -73,7 +75,7 @@ export function VisitorRow({
           <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
             <StatusBadge status={visitor.status} />
             <span className="text-xs text-text-secondary">
-              {formatRelativeTime(visitor.lastActivityAt)} · {FREQUENCY_LABEL[visitor.visitFrequency]}
+              {formatRelativeTime(visitor.lastActivityAt)} · {t(FREQUENCY_KEY[visitor.visitFrequency])}
             </span>
           </div>
         </div>
@@ -86,12 +88,12 @@ export function VisitorRow({
           className="gradient-cta flex min-h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-md)] text-sm font-semibold text-white transition-opacity hover:opacity-90"
         >
           <Lock className="h-4 w-4" aria-hidden="true" />
-          Unlock this visitor
+          {t("dash.unlockThisVisitor")}
         </button>
       ) : (
         <span className="flex items-center gap-1.5 text-xs font-medium text-text-secondary">
           <Eye className="h-3.5 w-3.5" aria-hidden="true" />
-          View full activity
+          {t("dash.viewFullActivity")}
         </span>
       )}
     </div>

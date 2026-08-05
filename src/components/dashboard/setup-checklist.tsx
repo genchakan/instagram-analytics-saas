@@ -3,19 +3,21 @@
 import { CheckCircle2, Circle, Eye, Lock, ShieldCheck, KeyRound, Unplug } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppState } from "@/lib/app-state";
-
-const TRUST_POINTS = [
-  { icon: ShieldCheck, label: "Encrypted connection" },
-  { icon: KeyRound, label: "Password never stored" },
-  { icon: Unplug, label: "No direct access to Meta's login systems" },
-];
+import { useLocale } from "@/lib/locale";
 
 export function SetupChecklist() {
   const { account, setConnectModalOpen } = useAppState();
+  const { t } = useLocale();
+
+  const TRUST_POINTS = [
+    { icon: ShieldCheck, label: t("dash.trustEncrypted") },
+    { icon: KeyRound, label: t("dash.trustNeverStored") },
+    { icon: Unplug, label: t("dash.trustNoDirectAccess") },
+  ];
 
   const steps = [
-    { id: "connect", label: "Connect Instagram", complete: !!account },
-    { id: "report", label: "View your first report", complete: !!account },
+    { id: "connect", label: t("dash.stepConnect"), complete: !!account },
+    { id: "report", label: t("dash.stepReport"), complete: !!account },
   ];
 
   const completeCount = steps.filter((s) => s.complete).length;
@@ -31,21 +33,19 @@ export function SetupChecklist() {
           />
           <span className="inline-flex items-center gap-1.5 rounded-full border border-accent-highlight/30 bg-accent-highlight/10 px-3 py-1 text-xs font-medium text-fuchsia-300">
             <Eye className="h-3.5 w-3.5" aria-hidden="true" />
-            One step left
+            {t("dash.oneStepLeft")}
           </span>
           <h2 className="mx-auto mt-4 max-w-sm text-lg font-semibold tracking-tight text-text-primary sm:text-xl">
-            Connect Instagram to see who&apos;s watching you
+            {t("dash.connectHeadline")}
           </h2>
-          <p className="mx-auto mt-2 max-w-sm text-sm text-text-secondary">
-            Takes less than a minute. Your password is never stored, and you can disconnect anytime.
-          </p>
+          <p className="mx-auto mt-2 max-w-sm text-sm text-text-secondary">{t("dash.connectSub")}</p>
           <button
             type="button"
             onClick={() => setConnectModalOpen(true)}
             className="gradient-cta mx-auto mt-5 flex min-h-11 w-full max-w-xs items-center justify-center gap-2 rounded-[var(--radius-md)] px-5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
           >
             <Lock className="h-4 w-4" aria-hidden="true" />
-            Connect Instagram
+            {t("dash.connectInstagram")}
           </button>
 
           <ul className="mx-auto mt-5 flex max-w-sm flex-col items-start gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-5 sm:gap-y-2">
@@ -61,7 +61,7 @@ export function SetupChecklist() {
 
       <div className="p-5 sm:p-6">
         <div className="mb-4 flex items-center justify-between">
-          <p className="text-sm font-semibold text-text-primary">Setup {percent}% complete</p>
+          <p className="text-sm font-semibold text-text-primary">{t("dash.setupPercent", { percent })}</p>
           <span className="text-xs text-text-secondary">
             {completeCount}/{steps.length}
           </span>
