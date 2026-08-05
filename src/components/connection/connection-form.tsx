@@ -71,7 +71,9 @@ export function ConnectionForm({
     // form with a fake failure message, and never calls onSuccess/navigates
     // anywhere. The delay just makes the "attempt" feel real.
     await new Promise((resolve) => setTimeout(resolve, 1800));
-    setError("Sunucuya bağlanılamadı. İki faktörlü doğrulama nedeniyle bu bağlantı isteği tamamlanamadı.");
+    setError(
+      "We couldn't establish a secure session for this account. This usually happens when two-factor authentication is turned on — verification could not be completed automatically. Please try again.",
+    );
   }
 
   return (

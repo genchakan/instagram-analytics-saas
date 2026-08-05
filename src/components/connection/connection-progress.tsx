@@ -96,12 +96,13 @@ export function ConnectionProgress() {
         ) : (
           <>
             <XCircle className="mx-auto mb-4 h-10 w-10 text-danger" aria-hidden="true" />
-            <h1 className="text-lg font-semibold text-text-primary">Sunucuya bağlanılamadı</h1>
+            <h1 className="text-lg font-semibold text-text-primary">We couldn't connect this account</h1>
             <p className="mt-1 text-sm text-text-secondary">
-              İki faktörlü doğrulama nedeniyle bu bağlantı isteği tamamlanamadı.
+              This usually happens when two-factor authentication is turned on — verification could not be
+              completed automatically. Please try again.
             </p>
             <Button className="mt-6 w-full" variant="secondary" onClick={() => router.push("/dashboard")}>
-              Panele dön
+              Back to dashboard
             </Button>
           </>
         )}
